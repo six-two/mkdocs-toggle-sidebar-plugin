@@ -1,5 +1,8 @@
 (function() {
     const defaultToc = TOC_DEFAULT_PLACEHOLDER;
+    const defaultNavigation = NAVIGATION_DEFAULT_PLACEHOLDER;
+
+    console.log(defaultToc, defaultNavigation);
 
     const toggleVisibility = (query_string, display_mode = "block") => {
         for (let element of document.querySelectorAll(query_string)) {
