@@ -1,13 +1,10 @@
-site_name: mkdocs-badges
+site_name: mkdocs-toggle-sidebar-blugin
 
 theme:
   name: material
   features:
     - content.code.copy
     - navigation.footer
-nav:
-# Hide the index page -> would otherwise result in two mkdocs-badges links
-- "": index.md
 
 plugins:
 - search

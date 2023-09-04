@@ -1,3 +1,5 @@
+import os
+import shutil
 # pip dependency
 import mkdocs
 from mkdocs.plugins import BasePlugin
@@ -7,13 +9,14 @@ from mkdocs.structure.files import Files
 from mkdocs.config.base import Config
 from mkdocs.config.config_options import Type
 from mkdocs.config.defaults import MkDocsConfig
-
+from mkdocs.config.config_options import Type, ExtraScriptValue
 
 class PluginConfig(Config):
     enabled = Type(bool, default=True)
     show_toc_by_default = Type(bool, default=True)
     show_navigation_by_default = Type(bool, default=True)
-
+    async_ = Type(bool, default=True)
+    javascript = Type(str, default="assets/javascripts/toggle-sidebar.js")
 
 
 class Plugin(BasePlugin[PluginConfig]):
@@ -22,27 +25,42 @@ class Plugin(BasePlugin[PluginConfig]):
         Called once when the config is loaded.
         It will make modify the config and initialize this plugin.
         """
-        self.crosslinks: dict[str,CrosslinkSite] = {}
-        parse_crosslinks_list(self.config.crosslinks, "crosslinks", self.crosslinks)
-
-        # If not already created/overwritten by the user, provide a default value for 'local'
-        local_crosslink = create_local_crosslink(config)
-        if local_crosslink.name not in self.crosslinks:
-            self.crosslinks[local_crosslink.name] = local_crosslink
-
-        self.replacer = Replacer(list(self.crosslinks.values()), self.config) # @TODO: make it work with a dict?
+        custom_script = ExtraScriptValue(self.config.javascript)
+        if self.config.async_:
+            custom_script.async_ = True
+        
+        config.extra_javascript.append(custom_script)
         return config
 
 
-    # @event_priority(50)
-    # SEE https://www.mkdocs.org/dev-guide/plugins/#event-priorities
-    def on_page_content(self, html: str, page: Page, config: MkDocsConfig, files: Files) -> str:
-        """
-        The page_content event is called after the Markdown text is rendered to HTML (but before being passed to a template) and can be used to alter the HTML body of the page.
-        See: https://www.mkdocs.org/dev-guide/plugins/#on_page_content
-        """
-        pass
-
     def on_post_build(self, config: MkDocsConfig) -> None:
-        if self.config.show_profiling_results:
-            PROFILER.log_stats()
+        copy_asset_if_target_file_does_not_exist(config.site_dir, self.config.javascript, "toggle-sidebar.js")
+
+
+def copy_asset_if_target_file_does_not_exist(output_dir: str, target_path_in_output_folder: str, asset_name: str):
+    if not target_path_in_output_folder:
+        raise ValueError("Empty value for 'target_path_in_output_folder' given")
+
+    target_path = os.path.join(output_dir, target_path_in_output_folder)
+    if os.path.exists(target_path):
+        # The file exists. This probably means, that the user wanted to override the default file
+        # So we just do nothing
+        pass
+    else:
+        # Make sure that the folder exists
+        parent_dir = os.path.dirname(target_path)
+        os.makedirs(parent_dir, exist_ok=True)
+        # Copy the file
+        asset_path = get_resource_path(asset_name)
+
+        with open(asset_path) as f:
+            data = f.read()
+        data = data.replace("TOC_DEFAULT_PLACEHOLDER", "true")
+        with open(target_path, "w") as f:
+            f.write(data)
+
+
+def get_resource_path(name: str) -> str:
+    current_dir = os.path.dirname(__file__)
+    return os.path.join(current_dir, name)
+

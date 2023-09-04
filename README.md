@@ -19,6 +19,14 @@ plugins:
 - TODO
 ```
 
+## Theme support
+
+Theme|Theme version|Plugin version|Status
+---|---|---|---
+mkdocs-material|||
+
+Just open a issue / PR if you use a strange theme or the info above is not up to date anymore.
+
 ## Notable changes
 
 TODO

@@ -1,1 +1,2 @@
 include README.md
+include src/mkdocs_toggle_sidebar_plugin/toggle-sidebar.js
