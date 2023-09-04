@@ -4,7 +4,12 @@
 ![License](https://img.shields.io/pypi/l/mkdocs-toggle-sidebar-plugin)
 ![Python versions](https://img.shields.io/pypi/pyversions/mkdocs-toggle-sidebar-plugin)
 
-This package allows you to add links to other MkDocs sites (or sites created with similar page generator).
+This package allows you to toggle the left (navigation) and right (table of contents) sidebars on Material for MkDocs.
+Hopefully the two default themes (mkdocs and readthedocs) are as easy to work with too, so that they can be supported.
+The settings are stored using the `localStorage` object, so that it will persist between pages.
+
+I wrote it after getting frustrated by the browser's `Find in page` function matching way to many links in the navigation sidebar instead of searching in the actual page's content.
+
 
 ## Usage
 
@@ -29,8 +34,8 @@ The plugin adds the following key bindings:
 Key   | Action
 ---   | ---
 ++b++ | toggle **b**oth (TOC and navigation)
-++m++ | toggle navigation menu
-++t++ | toggle TOC
+++m++ | toggle navigation **m**enu
+++t++ | toggle **T**OC
 
 ## Theme support
 
