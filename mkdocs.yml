@@ -1,0 +1,21 @@
+site_name: mkdocs-badges
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.footer
+nav:
+# Hide the index page -> would otherwise result in two mkdocs-badges links
+- "": index.md
+
+plugins:
+- search
+- toggle-sidebar
+
+
+# SEE https://squidfunk.github.io/mkdocs-material/reference/admonitions/
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
