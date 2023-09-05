@@ -23,4 +23,4 @@ python3 -m pip install .
 
 # Serve the test site
 echo "[*] Starting MkDocs in serve mode"
-python3 -m mkdocs serve
+python3 -m mkdocs serve "$@"

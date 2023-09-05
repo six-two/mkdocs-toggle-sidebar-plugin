@@ -46,6 +46,18 @@ mkdocs (default) | 1.5.2         | 0.0.1         | not yet implemented
 
 Just open a issue / PR if you use a strange theme or the info above is not up to date anymore.
 
+### Note to self
+
+Test mkdocs-material theme:
+```bash
+./serve.sh
+```
+
+Test mkdocs theme:
+```bash
+./serve.sh --theme mkdocs
+```
+
 ## Notable changes
 
 ### Version 0.0.1

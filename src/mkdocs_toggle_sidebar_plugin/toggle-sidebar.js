@@ -1,10 +1,4 @@
 (function() {
-    const setVisibility = (query_string, show) => {
-        for (let element of document.querySelectorAll(query_string)) {
-            element.style.display = show ? "block" : "none";
-        }
-    }
-
     const loadBool = (name, default_value) => {
         const value = localStorage.getItem(`TOGGLE_SIDEBAR_${name}`);
         if (value == null) {
@@ -18,44 +12,32 @@
         localStorage.setItem(`TOGGLE_SIDEBAR_${name}`, value ? "1" : "0");
     }
 
-    const setTocVisibility = (visible) => {
-        setVisibility("div.md-sidebar.md-sidebar--secondary", visible);
-        saveBool("TOC", visible);
-    }
-    
-    const setNavigationVisibility = (visible) => {
-        setVisibility("div.md-sidebar.md-sidebar--primary", visible);
-        saveBool("NAVIGATION", visible);
-    }
-
     const toggleTableOfContents = () => {
+        console.debug("Toggling table-of-contents sidebar");
         const isShown = loadBool("TOC", TOC_DEFAULT_PLACEHOLDER);
-        setTocVisibility(!isShown)
+        setTocVisibility(!isShown);
+        saveBool("TOC", !isShown);
     }
 
     const toggleNavigation = () => {
-        console.debug("Toggling table-of-contents sitebar");
+        console.debug("Toggling navigation sidebar");
         const isShown = loadBool("NAVIGATION", NAVIGATION_DEFAULT_PLACEHOLDER);
         setNavigationVisibility(!isShown);
+        saveBool("NAVIGATION", !isShown);
     }
 
-    // Custom key handlers: SEE https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/?h=key+bind#docsjavascriptsshortcutsjs
-    keyboard$.subscribe(key => {
-        if (key.mode === "global") {
-            if (key.type === "t") {
-                key.claim();
-                toggleTableOfContents();
-            } else if (key.type === "m") {
-                key.claim();
-                toggleNavigation();
-            } else if (key.type === "b") {
-                key.claim();
-                toggleNavigation();
-                toggleTableOfContents();
-            }
-        }
-    });
+    // START OF INCLUDE
+    // This gets replaced with the definitions of: 
+    // - setTocVisibility(bool) -> void
+    // - setNavigationVisibility(bool) -> void
+    // - registerKeyboardEventHandler() -> void
+    THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER
+    // END OF INCLUDE
 
-    setTocVisibility(loadBool("TOC", TOC_DEFAULT_PLACEHOLDER));
-    setNavigationVisibility(loadBool("NAVIGATION", NAVIGATION_DEFAULT_PLACEHOLDER));
+    window.addEventListener("load", () => {
+        console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\n T -> toggle table of contents sidebar\n M -> toggle navigation menu sidebar\n B -> toggle both sidebars (TOC and navigation)");
+        registerKeyboardEventHandler();
+        setTocVisibility(loadBool("TOC", TOC_DEFAULT_PLACEHOLDER));
+        setNavigationVisibility(loadBool("NAVIGATION", NAVIGATION_DEFAULT_PLACEHOLDER));
+    });
 }());
