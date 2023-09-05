@@ -1,4 +1,5 @@
-site_name: mkdocs-toggle-sidebar-blugin
+site_name: mkdocs-toggle-sidebar-plugin
+repo_url: https://github.com/six-two/mkdocs-toggle-sidebar-plugin
 
 theme:
   name: material

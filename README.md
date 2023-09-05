@@ -1,4 +1,4 @@
-# mkdocs-crosslink-plugin
+# mkdocs-toggle-sidebar-plugin
 
 [![PyPI version](https://img.shields.io/pypi/v/mkdocs-toggle-sidebar-plugin)](https://pypi.org/project/mkdocs-toggle-sidebar-plugin/)
 ![License](https://img.shields.io/pypi/l/mkdocs-toggle-sidebar-plugin)
@@ -41,7 +41,7 @@ Key   | Action
 
 Theme            | Theme version |Plugin version | Status
 ---              | ---           | ---           | ---
-mkdocs-material  | 9.1.21        | 0.0.1         | works
+[mkdocs-material](https://github.com/squidfunk/mkdocs-material)  | 9.1.21        | 0.0.1         | works
 mkdocs (default) | 1.5.2         | 0.0.1         | not yet implemented
 
 Just open a issue / PR if you use a strange theme or the info above is not up to date anymore.
