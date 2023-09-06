@@ -34,6 +34,23 @@
     THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER
     // END OF INCLUDE
 
+    // argument: string, returns true if the key was handled and the event should be marked as already handled
+    const coreEventListenerLogic = (keyChar) => {
+        if (keyChar === "t") {
+            toggleTableOfContents();
+            return true;
+        } else if (keyChar === "m") {
+            toggleNavigation();
+            return true;
+        } else if (keyChar === "b") {
+            toggleNavigation();
+            toggleTableOfContents();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     window.addEventListener("load", () => {
         console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\n T -> toggle table of contents sidebar\n M -> toggle navigation menu sidebar\n B -> toggle both sidebars (TOC and navigation)");
         registerKeyboardEventHandler();

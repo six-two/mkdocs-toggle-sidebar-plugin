@@ -19,19 +19,10 @@ const setNavigationVisibility = (visible) => {
 const registerKeyboardEventHandler = () => {
     // Native HTML key event handling
     document.addEventListener("keydown", (event => {
-        if (event.key === "t") {
+        if (coreEventListenerLogic(event.key)) {
+            // event handled, stop propagation
             event.preventDefault();
             event.stopPropagation();
-            toggleTableOfContents();
-        } else if (event.key === "m") {
-            event.preventDefault();
-            event.stopPropagation();
-            toggleNavigation();
-        } else if (event.key === "b") {
-            event.preventDefault();
-            event.stopPropagation();
-            toggleNavigation();
-            toggleTableOfContents();
         }
     }));
 }

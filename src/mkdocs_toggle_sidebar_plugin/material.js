@@ -16,16 +16,9 @@ const registerKeyboardEventHandler = () => {
     // Custom key handlers: SEE https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/?h=key+bind#docsjavascriptsshortcutsjs
     keyboard$.subscribe(key => {
         if (key.mode === "global") {
-            if (key.type === "t") {
+            if (coreEventListenerLogic(key.type)) {
+                // event handled, stop propagation
                 key.claim();
-                toggleTableOfContents();
-            } else if (key.type === "m") {
-                key.claim();
-                toggleNavigation();
-            } else if (key.type === "b") {
-                key.claim();
-                toggleNavigation();
-                toggleTableOfContents();
             }
         }
     });
