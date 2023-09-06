@@ -4,8 +4,11 @@
 ![License](https://img.shields.io/pypi/l/mkdocs-toggle-sidebar-plugin)
 ![Python versions](https://img.shields.io/pypi/pyversions/mkdocs-toggle-sidebar-plugin)
 
-This package allows you to toggle the left (navigation) and right (table of contents) sidebars on Material for MkDocs.
-Hopefully the two default themes (mkdocs and readthedocs) are as easy to work with too, so that they can be supported.
+This package allows you to toggle the left (navigation) and right (table of contents) sidebars on a couple of MkDocs themes such as:
+
+- [Material for MkDocs](https://github.com/squidfunk/mkdocs-material): `material`
+- Builtin themes: `mkdocs`, `readthedocs`
+
 The settings are stored using the `localStorage` object, so that it will persist between pages.
 
 I wrote it after getting frustrated by the browser's `Find in page` function matching way to many links in the navigation sidebar instead of searching in the actual page's content.
@@ -39,10 +42,11 @@ Key   | Action
 
 ## Theme support
 
-Theme            | Theme version |Plugin version | Status
----              | ---           | ---           | ---
-[mkdocs-material](https://github.com/squidfunk/mkdocs-material)  | 9.1.21        | 0.0.1         | works
-mkdocs (default) | 1.5.2         | 0.0.2         | works
+Theme            | Theme version | Plugin version | Status
+---              | ---           | ---            | ---
+mkdocs-material  | 9.1.21        | 0.0.1          | works
+mkdocs (default) | 1.5.2         | 0.0.2          | works
+readthedocs      | 1.5.2         | 0.0.2          | works
 
 Just open a issue / PR if you use a strange theme or the info above is not up to date anymore.
 
@@ -60,9 +64,9 @@ Test mkdocs theme:
 
 ## Notable changes
 
-### HEAD
+### Version 0.0.2
 
-- Added support for `mkdocs` theme.
+- Added support for `mkdocs` and `readthedocs` theme.
 
 ### Version 0.0.1
 
