@@ -42,7 +42,7 @@ Key   | Action
 Theme            | Theme version |Plugin version | Status
 ---              | ---           | ---           | ---
 [mkdocs-material](https://github.com/squidfunk/mkdocs-material)  | 9.1.21        | 0.0.1         | works
-mkdocs (default) | 1.5.2         | 0.0.1         | not yet implemented
+mkdocs (default) | 1.5.2         | 0.0.2         | works
 
 Just open a issue / PR if you use a strange theme or the info above is not up to date anymore.
 
@@ -60,6 +60,10 @@ Test mkdocs theme:
 
 ## Notable changes
 
+### HEAD
+
+- Added support for `mkdocs` theme.
+
 ### Version 0.0.1
 
-Prototype with `mkdocs-material` implementation.
+- Prototype with `mkdocs-material` implementation.
