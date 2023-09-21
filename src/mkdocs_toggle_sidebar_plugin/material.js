@@ -1,15 +1,22 @@
-const setVisibility = (query_string, show) => {
-    for (let element of document.querySelectorAll(query_string)) {
-        element.style.display = show ? "block" : "none";
+const setCombinedVisibility = (showNavigation, showTOC) => {
+    let style = "";
+    if (!showTOC) {
+        style += `
+div.md-sidebar.md-sidebar--secondary {
+    display: none;
+}
+`;
     }
-}
 
-const setTocVisibility = (visible) => {
-    setVisibility("div.md-sidebar.md-sidebar--secondary", visible);
+    if (!showNavigation) {
+        style += `
+div.md-sidebar.md-sidebar--primary {
+    display: none;
 }
+`
+    }
 
-const setNavigationVisibility = (visible) => {
-    setVisibility("div.md-sidebar.md-sidebar--primary", visible);
+    return style;
 }
 
 const registerKeyboardEventHandler = () => {

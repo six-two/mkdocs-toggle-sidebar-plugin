@@ -1,8 +1,10 @@
-const setTocVisibility = (visible) => {
-    if (visible) {
-        window.toggleSidebarStyle.innerHTML = "";
+const setCombinedVisibility = (showNavigation, showTOC) => {
+    // Navigation and TOC are merged so we just pick one of the values and trust them
+    // @TODO: add support for combined bars in toggle-sidebar.js?
+    if (showNavigation) {
+        return "";
     } else {
-        window.toggleSidebarStyle.innerHTML = `
+        return `
 section.wy-nav-content-wrap {
     margin-left: 0px;
 }
@@ -15,22 +17,11 @@ div.wy-nav-content {
     max-width: 1100px;
 }
 `;
-
-// // For debugging add:
-// div.wy-nav-content {
-//     background: gray;
-// }
     }
-}
-
-const setNavigationVisibility = (visible) => {
-    // TOC and Navigation are merged / in one panel. So we just do nothing
-    // setTocVisibility(visible);
+    
 }
 
 const registerKeyboardEventHandler = () => {
-    window.toggleSidebarStyle = document.createElement("style");
-    document.head.appendChild(window.toggleSidebarStyle);
     // Native HTML key event handling
     document.addEventListener("keydown", (event => {
         if (coreEventListenerLogic(event.key)) {
