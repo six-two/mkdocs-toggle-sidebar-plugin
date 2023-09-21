@@ -3,25 +3,32 @@
 # Change into the project root
 cd -- "$( dirname -- "${BASH_SOURCE[0]}" )"
 
+# If you created a virtual python environment, source it
+if [[ -f venv/bin/activate ]]; then
+    echo "[*] Using virtual python environment"
+    source venv/bin/activate
+fi
+
 # Install the pip package
 python3 -m pip install .
 
-# Build main site
-# Needs to be first, since the other files will be copied into it
-mkdocs build "$@" || exit 1
+# delete the output dir
+[[ -d public ]] && rm -rf public
 
-build_sub_site() {
-    # Switch into directory, build site, copy to the main site, switch back to initial directory
-    # Hard assumption: $1 MUST NOT contain a path separator (relative and not nested)
-    cd "$1"
-    mkdocs build
-    cp -r site "../site/$1"
-    cd ..
+# Create a fresh output dir
+mkdir public
+
+# Create a redirect to the default theme (material)
+cp redirect.html public/index.html
+
+build_with_theme() {
+    echo "[*] Building with theme $1"
+    python3 -m mkdocs build -t "$1" -d public/"$1"
 }
 
-build_sub_site site_a
-build_sub_site site_b
+build_with_theme mkdocs
+build_with_theme readthedocs
+build_with_theme material
 
-# serve site
-cd site
-python3 -m http.server
+echo "[*] To view the site run:"
+echo python3 -m http.server --directory "'$(pwd)/public/'"

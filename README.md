@@ -9,6 +9,8 @@ This package allows you to toggle the left (navigation) and right (table of cont
 - [Material for MkDocs](https://github.com/squidfunk/mkdocs-material): `material`
 - Builtin themes: `mkdocs`, `readthedocs`
 
+You can play around with it and these themes on the [test page](https://mkdocs-toggle-sidebar.six-two.dev).
+
 The settings are stored using the `localStorage` object, so that it will persist between pages.
 
 I wrote it after getting frustrated by the browser's `Find in page` function matching way to many links in the navigation sidebar instead of searching in the actual page's content.
@@ -36,9 +38,9 @@ The plugin adds the following key bindings:
 
 Key   | Action
 ---   | ---
-++b++ | toggle **b**oth (TOC and navigation)
-++m++ | toggle navigation **m**enu
-++t++ | toggle **T**OC
+`b` | toggle **b**oth (TOC and navigation)
+`m` | toggle navigation **m**enu
+`t` | toggle **T**OC
 
 ## Theme support
 
