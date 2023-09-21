@@ -9,6 +9,9 @@ if [[ -f venv/bin/activate ]]; then
     source venv/bin/activate
 fi
 
+echo "[*] Installing dependencies"
+python3 -m pip install -r requirements.txt
+
 # Install the pip package
 python3 -m pip install .
 
