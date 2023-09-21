@@ -1,0 +1,4 @@
+- bug: small page width w/ materian -> TOC not hidden. Makes it very hard to browse the site on a phone
+    Similar mkdocs TOC
+    Similar readthedocs navigation
+- TODO: add a way to toggle on mobile (buttons or gestures)

@@ -13,15 +13,15 @@
     }
 
     const toggleTableOfContents = () => {
-        console.debug("Toggling table-of-contents sidebar");
         const isShown = loadBool("TOC", TOC_DEFAULT_PLACEHOLDER);
+        console.debug((isShown ? "Hiding" : "Showing") + " table-of-contents sidebar");
         setTocVisibility(!isShown);
         saveBool("TOC", !isShown);
     }
 
     const toggleNavigation = () => {
-        console.debug("Toggling navigation sidebar");
         const isShown = loadBool("NAVIGATION", NAVIGATION_DEFAULT_PLACEHOLDER);
+        console.debug((isShown ? "Hiding" : "Showing") + " navigation sidebar");
         setNavigationVisibility(!isShown);
         saveBool("NAVIGATION", !isShown);
     }

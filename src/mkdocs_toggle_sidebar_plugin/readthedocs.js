@@ -5,9 +5,28 @@ const setVisibility = (query_string, show) => {
 }
 
 const setTocVisibility = (visible) => {
-    setVisibility("nav.wy-nav-side", visible);
-    document.querySelector("div.wy-nav-content").style.maxWidth = visible ? "800px" : "1100px";
-    document.querySelector("section.wy-nav-content-wrap").style.marginLeft = visible ? "300px" : "0px";
+    if (visible) {
+        window.toggleSidebarStyle.innerHTML = "";
+    } else {
+        window.toggleSidebarStyle.innerHTML = `
+section.wy-nav-content-wrap {
+    margin-left: 0px;
+}
+
+nav.wy-nav-side, div.rst-versions {
+    display: none;
+}
+
+div.wy-nav-content {
+    max-width: 1100px;
+}
+`;
+
+// // For debugging add:
+// div.wy-nav-content {
+//     background: gray;
+// }
+    }
 }
 
 const setNavigationVisibility = (visible) => {
@@ -16,6 +35,8 @@ const setNavigationVisibility = (visible) => {
 }
 
 const registerKeyboardEventHandler = () => {
+    window.toggleSidebarStyle = document.createElement("style");
+    document.head.appendChild(window.toggleSidebarStyle);
     // Native HTML key event handling
     document.addEventListener("keydown", (event => {
         if (coreEventListenerLogic(event.key)) {
