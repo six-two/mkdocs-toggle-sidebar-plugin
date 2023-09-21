@@ -1,19 +1,27 @@
-const setVisibility = (query_string, show) => {
-    for (let element of document.querySelectorAll(query_string)) {
-        element.style.display = show ? "" : "none";
+const setCombinedVisibility = (showNavigation, showTOC) => {
+    let style = "";
+    if (!showTOC) {
+        style += `
+div.col-md-3 {
+    display: none;
+}
+
+div.col-md-9 {
+    max-width: 100%;
+    flex-basis: 100%;
+}
+`;
     }
-}
 
-const setTocVisibility = (visible) => {
-    setVisibility("div.col-md-3", visible);
-    // Fix the page limitation when removing TOC
-    const main_div = document.querySelector("div.col-md-9");
-    main_div.style.maxWidth = visible ? "75%" : "100%";
-    main_div.style.flexBasis = visible ? "75%" : "100%";
+    if (!showNavigation) {
+        style += `
+ul.navbar-nav:nth-child(1) {
+    display: none;
 }
+`
+    }
 
-const setNavigationVisibility = (visible) => {
-    setVisibility("ul.navbar-nav:nth-child(1)", visible);
+    return style;
 }
 
 const registerKeyboardEventHandler = () => {

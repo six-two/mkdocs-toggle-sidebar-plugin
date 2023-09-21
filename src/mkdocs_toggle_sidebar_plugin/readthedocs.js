@@ -1,9 +1,3 @@
-const setVisibility = (query_string, show) => {
-    for (let element of document.querySelectorAll(query_string)) {
-        element.style.display = show ? "" : "none";
-    }
-}
-
 const setTocVisibility = (visible) => {
     if (visible) {
         window.toggleSidebarStyle.innerHTML = "";

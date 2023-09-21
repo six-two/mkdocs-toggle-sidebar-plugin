@@ -1,4 +1,8 @@
 (function() {
+    const customDynamicStyle = document.createElement("style");
+    document.head.appendChild(customDynamicStyle);
+
+
     const loadBool = (name, default_value) => {
         const value = localStorage.getItem(`TOGGLE_SIDEBAR_${name}`);
         if (value == null) {
@@ -8,28 +12,34 @@
         }
     }
 
+    const loadNavigationState = () => loadBool("NAVIGATION", NAVIGATION_DEFAULT_PLACEHOLDER);
+    const loadTocState = () => loadBool("TOC", TOC_DEFAULT_PLACEHOLDER);
+
     const saveBool = (name, value) => {
         localStorage.setItem(`TOGGLE_SIDEBAR_${name}`, value ? "1" : "0");
     }
 
-    const toggleTableOfContents = () => {
-        const isShown = loadBool("TOC", TOC_DEFAULT_PLACEHOLDER);
-        console.debug((isShown ? "Hiding" : "Showing") + " table-of-contents sidebar");
-        setTocVisibility(!isShown);
-        saveBool("TOC", !isShown);
-    }
-
-    const toggleNavigation = () => {
-        const isShown = loadBool("NAVIGATION", NAVIGATION_DEFAULT_PLACEHOLDER);
-        console.debug((isShown ? "Hiding" : "Showing") + " navigation sidebar");
-        setNavigationVisibility(!isShown);
-        saveBool("NAVIGATION", !isShown);
+    const toggleVisibility = (toggleNavigation, toggleTOC) => {
+        let newNavigation = loadNavigationState();
+        let newTOC = loadTocState();
+        
+        if (toggleNavigation) {
+            newNavigation = !newNavigation;
+            saveBool("NAVIGATION", newNavigation);
+        }
+        if (toggleTOC) {
+            newTOC = !newTOC;
+            saveBool("TOC", newTOC);
+        }
+        
+        console.debug(`Setting new visibility: navigation=${newNavigation}, TOC=${newTOC}`);
+        // combine this into one operation, so that it is more efficient (for toggling both) and easier to code with dynamic CSS generation
+        customDynamicStyle.innerHTML = setCombinedVisibility(newNavigation, newTOC);
     }
 
     // START OF INCLUDE
     // This gets replaced with the definitions of: 
-    // - setTocVisibility(bool) -> void
-    // - setNavigationVisibility(bool) -> void
+    // - setCombinedVisibility(showNavigation: bool, showTOC: bool) -> string (dynamic CSS)
     // - registerKeyboardEventHandler() -> void
     THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER
     // END OF INCLUDE
@@ -37,14 +47,13 @@
     // argument: string, returns true if the key was handled and the event should be marked as already handled
     const coreEventListenerLogic = (keyChar) => {
         if (keyChar === "t") {
-            toggleTableOfContents();
+            toggleVisibility(false, true);
             return true;
         } else if (keyChar === "m") {
-            toggleNavigation();
+            toggleVisibility(true, false);
             return true;
         } else if (keyChar === "b") {
-            toggleNavigation();
-            toggleTableOfContents();
+            toggleVisibility(true, true);
             return true;
         } else {
             return false;
@@ -53,8 +62,8 @@
 
     window.addEventListener("load", () => {
         console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\n T -> toggle table of contents sidebar\n M -> toggle navigation menu sidebar\n B -> toggle both sidebars (TOC and navigation)");
+
         registerKeyboardEventHandler();
-        setTocVisibility(loadBool("TOC", TOC_DEFAULT_PLACEHOLDER));
-        setNavigationVisibility(loadBool("NAVIGATION", NAVIGATION_DEFAULT_PLACEHOLDER));
+        customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
     });
 }());
