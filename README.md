@@ -66,6 +66,11 @@ Test mkdocs theme:
 
 ## Notable changes
 
+### Version 0.0.3
+
+- Changed internal API:
+    - Element hiding/restyling is now done via CSS, so it is easier to undo. You should no longer have problems on devices with small screens (like phones) having broken layouts.
+
 ### Version 0.0.2
 
 - Added support for `mkdocs` and `readthedocs` theme.
