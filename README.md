@@ -42,6 +42,11 @@ Key   | Action
 `m` | toggle navigation **m**enu
 `t` | toggle **T**OC
 
+### Exported functions
+
+This plugin exposes some JavaScript functions, that can show, hide or toggle the visibility of the sidebars.
+You can see how they are called in `docs/javascript-functions.md`.
+
 ## Theme support
 
 Theme            | Theme version | Plugin version | Status

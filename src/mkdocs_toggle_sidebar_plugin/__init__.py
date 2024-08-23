@@ -1,18 +1,21 @@
 import os
 import logging
 # pip dependency
-from mkdocs.plugins import BasePlugin
+from mkdocs.plugins import BasePlugin, get_plugin_logger
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.config.base import Config
 from mkdocs.config.config_options import Type, ExtraScriptValue
+from mkdocs.exceptions import PluginError
 
-LOGGER = logging.getLogger("mkdocs.plugins.toggle-sidebar")
+LOGGER = get_plugin_logger(__name__)
 SCRIPT_DIR = os.path.dirname(__file__)
+ALLOWED_TOGGLE_BUTTON_VALUES = ["none", "navigation", "toc", "all"]
 
 class PluginConfig(Config):
     enabled = Type(bool, default=True)
     show_toc_by_default = Type(bool, default=True)
     show_navigation_by_default = Type(bool, default=True)
+    toggle_button = Type(str, default="none")
     async_ = Type(bool, default=True)
     javascript = Type(str, default="assets/javascripts/toggle-sidebar.js")
 
@@ -39,6 +42,9 @@ class Plugin(BasePlugin[PluginConfig]):
                 custom_script.async_ = True
             
             config.extra_javascript.append(custom_script)
+        
+        if self.config.toggle_button not in ALLOWED_TOGGLE_BUTTON_VALUES:
+            raise PluginError(f"Unexpected value for 'toggle_button': '{self.config.toggle_button}'. Allowed values are {', '.join(ALLOWED_TOGGLE_BUTTON_VALUES)}")
         return config
 
 
@@ -61,6 +67,7 @@ class Plugin(BasePlugin[PluginConfig]):
                 data = data.replace("THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER", self.theme_function_definitions)
                 data = data.replace("TOC_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
                 data = data.replace("NAVIGATION_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
+                data = data.replace("TOGGLE_BUTTON_PLACEHOLDER", self.config.toggle_button)
                 with open(target_path, "w") as f:
                     f.write(data)
 

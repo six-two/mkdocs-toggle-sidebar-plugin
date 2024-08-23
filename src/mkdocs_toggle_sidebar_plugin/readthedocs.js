@@ -21,6 +21,8 @@ div.wy-nav-content {
     
 }
 
+const addToggleButton = (toggleNavigation, toggleTOC) => {}
+
 const registerKeyboardEventHandler = () => {
     // Native HTML key event handling
     document.addEventListener("keydown", (event => {

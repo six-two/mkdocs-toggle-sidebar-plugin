@@ -9,7 +9,8 @@ theme:
 
 plugins:
 - search
-- toggle-sidebar
+- toggle-sidebar:
+    toggle_button: toc
 
 
 # SEE https://squidfunk.github.io/mkdocs-material/reference/admonitions/

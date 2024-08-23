@@ -24,6 +24,8 @@ ul.navbar-nav:nth-child(1) {
     return style;
 }
 
+const addToggleButton = (toggleNavigation, toggleTOC) => {}
+
 const registerKeyboardEventHandler = () => {
     // Native HTML key event handling
     document.addEventListener("keydown", (event => {

@@ -67,6 +67,19 @@
     window.addEventListener("load", () => {
         console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\n T -> toggle table of contents sidebar\n M -> toggle navigation menu sidebar\n B -> toggle both sidebars (TOC and navigation)");
 
+        const toggle_button = "TOGGLE_BUTTON_PLACEHOLDER";
+        if (toggle_button == "none") {
+            // do nothing
+        } else if (toggle_button == "navigation") {
+            addToggleButton(true, false);
+        } else if (toggle_button == "toc") {
+            addToggleButton(false, true);
+        } else if (toggle_button == "all") {
+            addToggleButton(true, true);
+        } else {
+            console.error(`[mkdocs-toggle-sidebar-plugin] Unknown value for toggle_button: '${toggleButtonType}'`);
+        }
+
         registerKeyboardEventHandler();
         customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
     });
