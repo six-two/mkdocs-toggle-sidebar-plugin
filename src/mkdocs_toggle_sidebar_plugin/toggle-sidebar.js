@@ -32,6 +32,10 @@
             saveBool("TOC", newTOC);
         }
         
+        _setVisibility(newNavigation, newTOC);
+    }
+
+    const _setVisibility = (newNavigation, newTOC) => {
         console.debug(`Setting new visibility: navigation=${newNavigation}, TOC=${newTOC}`);
         // combine this into one operation, so that it is more efficient (for toggling both) and easier to code with dynamic CSS generation
         customDynamicStyle.innerHTML = setCombinedVisibility(newNavigation, newTOC);
@@ -66,4 +70,24 @@
         registerKeyboardEventHandler();
         customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
     });
+
+    // Export functions that the user can call to modify the state
+    window.MkdocsToggleSidebarPlugin = {
+        setNavigationVisibility: (show) => {
+            saveBool("NAVIGATION", show);
+            _setVisibility(show, loadTocState());
+        },
+        setTocVisibility: (show) => {
+            saveBool("TOC", show);
+            _setVisibility(loadNavigationState(), show);
+        },
+        setAllVisibility: (showNavigation, showTOC) => {
+            saveBool("NAVIGATION", showNavigation);
+            saveBool("TOC", showTOC);
+            _setVisibility(showNavigation, showTOC);
+        },
+        toggleNavigationVisibility: () => toggleVisibility(true, false),
+        toggleTocVisibility: () => toggleVisibility(false, true),
+        toggleAllVisibility: () => toggleVisibility(true, true)
+    };
 }());
