@@ -1,5 +1,20 @@
 const setCombinedVisibility = (showNavigation, showTOC) => {
-    let style = "";
+    let style = `
+.mkdocs-toggle-sidebar-container {
+    margin: auto 0;
+}
+
+.mkdocs-toggle-sidebar-button {
+    cursor: pointer;
+    width: 1.5em;
+    padding-bottom: 2px;
+}
+
+.mkdocs-toggle-sidebar-button svg {
+    fill: white;
+}
+`;
+
     if (!showTOC) {
         style += `
 div.col-md-3 {
@@ -24,7 +39,15 @@ ul.navbar-nav:nth-child(1) {
     return style;
 }
 
-const addToggleButton = (toggleNavigation, toggleTOC) => {}
+const addToggleButton = (toggleNavigation, toggleTOC) => {
+    const toggleBtn = createDefaultToggleButton(toggleNavigation, toggleTOC);
+    const li = document.createElement("li");
+    li.className = "nav-item mkdocs-toggle-sidebar-container";
+    li.append(toggleBtn);
+  
+    const titleElement = document.querySelector("#navbar-collapse > ul.nav.navbar-nav.ml-auto");
+    titleElement.insertBefore(li, titleElement.firstChild);  
+}
 
 const registerKeyboardEventHandler = () => {
     // Native HTML key event handling

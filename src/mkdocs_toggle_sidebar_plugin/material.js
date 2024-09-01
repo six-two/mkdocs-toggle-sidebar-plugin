@@ -37,11 +37,8 @@ div.md-sidebar.md-sidebar--primary {
 }
 
 const addToggleButton = (toggleNavigation, toggleTOC) => {
-    const toggleBtn = document.createElement("div");
-    toggleBtn.className = "mkdocs-toggle-sidebar-button md-icon";
-    toggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>`;
-    toggleBtn.title = "Toggle sidebar";
-    toggleBtn.addEventListener("click", () => toggleVisibility(toggleNavigation, toggleTOC));
+    const toggleBtn = createDefaultToggleButton(toggleNavigation, toggleTOC);
+    toggleBtn.classList.add("md-icon");
   
     const titleElement = document.querySelector(".md-header__title");
     titleElement.parentNode.insertBefore(toggleBtn, titleElement.nextSibling);  
