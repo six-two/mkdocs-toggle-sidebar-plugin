@@ -1,6 +1,8 @@
 site_name: mkdocs-toggle-sidebar-plugin
 repo_url: https://github.com/six-two/mkdocs-toggle-sidebar-plugin
 
+theme: readthedocs
+
 # theme:
 #   name: material
 #   features:
@@ -10,7 +12,7 @@ repo_url: https://github.com/six-two/mkdocs-toggle-sidebar-plugin
 plugins:
 - search
 - toggle-sidebar:
-    toggle_button: toc
+    toggle_button: all
 
 
 # SEE https://squidfunk.github.io/mkdocs-material/reference/admonitions/
