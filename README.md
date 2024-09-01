@@ -71,6 +71,12 @@ Test mkdocs theme:
 
 ## Notable changes
 
+### Head
+
+- Export API via `MkdocsToggleSidebarPlugin` object.
+    This lets you create custom buttons or key bindings to hide, show or toggle the side bars.
+- Added `toggle_button` option and implemented it for Material theme
+
 ### Version 0.0.3
 
 - Changed internal API:

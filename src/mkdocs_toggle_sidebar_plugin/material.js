@@ -1,5 +1,22 @@
 const setCombinedVisibility = (showNavigation, showTOC) => {
-    let style = "";
+    let style = `
+.mkdocs-toggle-sidebar-button {
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 1rem;
+}
+
+/*
+Hide the button when on mobile (and menu us shown as hamburger menu anyways).
+The exact max-width is taken from the styling of the 'body > header > nav > a' element
+*/
+
+@media screen and (max-width: 76.1875em) {
+    .mkdocs-toggle-sidebar-button {
+        display: none;
+    }
+}
+`;
     if (!showTOC) {
         style += `
 div.md-sidebar.md-sidebar--secondary {
@@ -24,7 +41,6 @@ const addToggleButton = (toggleNavigation, toggleTOC) => {
     toggleBtn.className = "mkdocs-toggle-sidebar-button md-icon";
     toggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>`;
     toggleBtn.title = "Toggle sidebar";
-    toggleBtn.style = "cursor: pointer; margin-right: 5px; margin-left: 1rem;";
     toggleBtn.addEventListener("click", () => toggleVisibility(toggleNavigation, toggleTOC));
   
     const titleElement = document.querySelector(".md-header__title");
