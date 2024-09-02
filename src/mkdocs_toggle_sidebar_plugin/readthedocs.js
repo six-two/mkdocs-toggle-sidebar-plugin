@@ -48,7 +48,11 @@ const addToggleButton = (toggleNavigation, toggleTOC) => {
     li.append(toggleBtn);
 
     const titleElement = document.querySelector("ul.wy-breadcrumbs");
-    titleElement.insertBefore(li, titleElement.firstChild);  
+    if (titleElement) {
+        titleElement.insertBefore(li, titleElement.firstChild);  
+    } else {
+        console.warn(TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING);
+    }
 }
 
 const registerKeyboardEventHandler = () => {

@@ -2,6 +2,7 @@
     const customDynamicStyle = document.createElement("style");
     document.head.appendChild(customDynamicStyle);
 
+    const TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING = "[mkdocs-toggle-sidebar-plugin] Reference element for inserting 'toggle_button' not found. This version of the plugin may not be compatible with this version of the theme. Try updating both to the latest version. If that fails, you can open an GitHub issue.";
 
     const loadBool = (name, default_value) => {
         const value = localStorage.getItem(`TOGGLE_SIDEBAR_${name}`);

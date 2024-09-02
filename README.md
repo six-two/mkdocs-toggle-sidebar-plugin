@@ -42,18 +42,42 @@ Key   | Action
 `m` | toggle navigation **m**enu
 `t` | toggle **T**OC
 
-### Exported functions
+For some themes like `readthedocs` navigation and TOC are combined.
+In this case the state of TOC is ignored, and only calls for navigation (or all) are interpreted.
+
+### Toggle button
+
+When you set the `toggle_button` option to `navigation`, `toc` or `all`, it will add a button that looks like a hamburger menu (three horizontal bars) on a theme-dependent location.
+It is usually in the nav or the top bar.
+Clicking the button will toggle the navigation, table of contents, or both (depending on the supplied value).
+By leaving the field empty or setting it to `none`, no button is added.
+
+### Exported API functions
 
 This plugin exposes some JavaScript functions, that can show, hide or toggle the visibility of the sidebars.
-You can see how they are called in `docs/javascript-functions.md`.
+You can see how they are called in `docs/javascript-functions.md` and how they are defined in `src/mkdocs_toggle_sidebar_plugin/toggle-sidebar.js`.
+
+In short there are:
+
+- `MkdocsToggleSidebarPlugin.setNavigationVisibility(show: bool)`
+- `MkdocsToggleSidebarPlugin.setTocVisibility(show: bool)`
+- `MkdocsToggleSidebarPlugin.setAllVisibility: (showNavigation: bool, showTOC: bool)`
+- `MkdocsToggleSidebarPlugin.toggleNavigationVisibility()`
+- `MkdocsToggleSidebarPlugin.toggleTocVisibility()`
+- `MkdocsToggleSidebarPlugin.toggleAllVisibility()`
+
+The names and parameters should be self-explanatory.
 
 ## Theme support
 
+Below shows the latest themes that I have tested.
+They are not updated that often, and the plugin should generally work for other of theme versions too.
+
 Theme            | Theme version | Plugin version | Status
 ---              | ---           | ---            | ---
-mkdocs-material  | 9.1.21        | 0.0.1          | works
-mkdocs (default) | 1.5.2         | 0.0.2          | works
-readthedocs      | 1.5.2         | 0.0.2          | works
+mkdocs-material  | 9.5.34        | 0.0.4          | works
+mkdocs (default) | 1.6.1         | 0.0.4          | works
+readthedocs      | 1.6.1         | 0.0.4          | works
 
 Just open a issue / PR if you use a strange theme or the info above is not up to date anymore.
 
@@ -71,7 +95,7 @@ Test mkdocs theme:
 
 ## Notable changes
 
-### Head
+### Version 0.0.4
 
 - Export API via `MkdocsToggleSidebarPlugin` object.
     This lets you create custom buttons or key bindings to hide, show or toggle the side bars.

@@ -45,8 +45,16 @@ const addToggleButton = (toggleNavigation, toggleTOC) => {
     li.className = "nav-item mkdocs-toggle-sidebar-container";
     li.append(toggleBtn);
   
-    const titleElement = document.querySelector("#navbar-collapse > ul.nav.navbar-nav.ml-auto");
-    titleElement.insertBefore(li, titleElement.firstChild);  
+    let titleElement = document.querySelector("#navbar-collapse > ul.nav.navbar-nav.ms-md-auto");
+    if (!titleElement) {
+        // This worked in older versions, but not anymore. Since the default check failed, maybe we are in an old version?
+        titleElement = document.querySelector("#navbar-collapse > ul.nav.navbar-nav.ml-auto");
+    }
+    if (titleElement) {
+        titleElement.insertBefore(li, titleElement.firstChild);
+    } else {
+        console.warn(TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING);
+    }
 }
 
 const registerKeyboardEventHandler = () => {

@@ -41,7 +41,11 @@ const addToggleButton = (toggleNavigation, toggleTOC) => {
     toggleBtn.classList.add("md-icon");
   
     const titleElement = document.querySelector(".md-header__title");
-    titleElement.parentNode.insertBefore(toggleBtn, titleElement.nextSibling);  
+    if (titleElement) {
+        titleElement.parentNode.insertBefore(toggleBtn, titleElement.nextSibling);  
+    } else {
+        console.warn(TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING);
+    }
 }
 
 const registerKeyboardEventHandler = () => {
