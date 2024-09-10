@@ -12,6 +12,10 @@ theme:
 plugins:
 - search
 - toggle-sidebar:
+    async: False
+    javascript: ./toggle-sidebar.js
+    show_navigation_by_default: False
+    show_toc_by_default: False
     toggle_button: all
 
 

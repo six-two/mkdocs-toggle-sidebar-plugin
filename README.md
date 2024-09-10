@@ -45,7 +45,33 @@ Key   | Action
 For some themes like `readthedocs` navigation and TOC are combined.
 In this case the state of TOC is ignored, and only calls for navigation (or all) are interpreted.
 
-### Toggle button
+### Configuration options
+
+You can overwrite the defaults like this:
+
+```yaml
+plugins:
+- search
+- toggle-sidebar:
+    async: False
+    javascript: ./toggle-sidebar.js
+    show_navigation_by_default: False
+    show_toc_by_default: False
+    toggle_button: all
+```
+
+The following options exist:
+
+Option | Type | Default value | Description
+--- | ---| ---
+async | `bool` | `True` | Asynchronously load the JavaScript file created by the plugin
+javascript | `str` | `"assets/javascripts/toggle-sidebar.js"` | The path where to store the output file
+show_navigation_by_default | `bool` | `True` | Whether to show the navigation by default
+show_toc_by_default | `bool` | `True` | Whether to show the table of contents by default
+toggle_button | `str` | `"none"` | Can be set to show a toggle button (see below)
+
+
+#### Toggle button
 
 When you set the `toggle_button` option to `navigation`, `toc` or `all`, it will add a button that looks like a hamburger menu (three horizontal bars) on a theme-dependent location.
 It is usually in the nav or the top bar.
