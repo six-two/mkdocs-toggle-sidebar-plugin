@@ -1,13 +1,13 @@
 site_name: mkdocs-toggle-sidebar-plugin
 repo_url: https://github.com/six-two/mkdocs-toggle-sidebar-plugin
 
-theme: readthedocs
+# theme: readthedocs
 
-# theme:
-#   name: material
-#   features:
-#     - content.code.copy
-#     - navigation.footer
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.footer
 
 plugins:
 - search
