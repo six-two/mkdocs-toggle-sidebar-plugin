@@ -95,11 +95,15 @@ Test mkdocs theme:
 
 ## Notable changes
 
+### Version 0.0.5
+
+- Bug fix: On small screens with the material theme the navigation would be hidden, even when the hamburger menu was opened.
+
 ### Version 0.0.4
 
 - Export API via `MkdocsToggleSidebarPlugin` object.
     This lets you create custom buttons or key bindings to hide, show or toggle the side bars.
-- Added `toggle_button` option and implemented it for Material theme
+- Added `toggle_button` option and implemented it for Material theme.
 
 ### Version 0.0.3
 
