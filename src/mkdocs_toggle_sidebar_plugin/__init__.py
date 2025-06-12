@@ -39,7 +39,7 @@ def get_unknown_theme_message(theme_name: str, auto_detect_enabled: bool) -> str
     if auto_detect_enabled:
         basic_help = "If this theme is based on or similar to one of the supported themes above, add 'theme: <NAME_OF_SIMILAR_SUPPORTED_THEME>' to this plugin's configuration in your mkdocs.yml"
     else:
-        basic_help = "You manually set a theme in this plugin's configuration in your mkdocs.yml. Make sure you spelled the theme name correctly."
+        basic_help = "You are overwriting the theme in this plugin's configuration in your mkdocs.yml. Make sure you spelled the theme's name correctly."
     return f"Theme '{theme_name}' is not (yet) supported. The currently supported themes are: {", ".join(KNOWN_THEME_NAMES)}.\nRecommended steps:\n1. {basic_help}\n2. Try updating this plugin to the latest version: pip install -U mkdocs-toggle-sidebar-plugin\n3. Check if an issue for this theme exists: https://github.com/six-two/mkdocs-toggle-sidebar-plugin/issues\n4. If no issue exists feel free to open one. Please put the theme name and path where to download it in the issue"
     
 
@@ -64,10 +64,10 @@ class Plugin(BasePlugin[PluginConfig]):
                         LOGGER.debug(f"Theme is unknown, so we fell back to base theme: {base_theme_name}")
                         theme_name = base_theme_name
                     else:
-                        self.debug(get_unknown_theme_message(theme_name, True))
+                        LOGGER.warning(get_unknown_theme_message(theme_name, True))
             else:
                 if not is_known_theme(theme_name):
-                    self.debug(get_unknown_theme_message(theme_name, False))
+                    LOGGER.warning(get_unknown_theme_message(theme_name, False))
 
             # If the theme is known to be based on another theme, then we resolve it to the base theme
             resolved_theme_name = THEME_COMPATIBILITY.get(theme_name, theme_name)
