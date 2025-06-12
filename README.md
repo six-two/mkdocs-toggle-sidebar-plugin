@@ -97,29 +97,43 @@ The names and parameters should be self-explanatory.
 ## Theme support
 
 Below shows the latest themes that I have tested.
-They are not updated that often, and the plugin should generally work for other of theme versions too.
+The table is not updated regularly, but the plugin should generally work for other theme versions too.
 
 Theme            | Theme version | Plugin version | Status
 ---              | ---           | ---            | ---
-mkdocs-material  | 9.5.34        | 0.0.4          | works
-mkdocs (default) | 1.6.1         | 0.0.4          | works
-readthedocs      | 1.6.1         | 0.0.4          | works
+mkdocs-ansible   | 25.6.0        | 0.0.6          | works
+mkdocs-material  | 9.6.14        | 0.0.4+         | works
+mkdocs (default) | 1.6.1         | 0.0.4+         | works
+readthedocs      | 1.6.1         | 0.0.4+         | works
 
-Just open a issue / PR if you use a strange theme or the info above is not up to date anymore.
+Just open an issue / PR if you use a strange theme or the info above is not up-to-date anymore.
 
 ### Note to self
 
-Test mkdocs-material theme:
+Test `material` theme:
 ```bash
 ./serve.sh
 ```
 
-Test mkdocs theme:
+Test `mkdocs` theme:
 ```bash
 ./serve.sh --theme mkdocs
 ```
 
+Test `mkdocs`, `readthedocs` and `material` themes:
+```bash
+./build.sh
+python3 -m http.server --directory './public/'
+```
+
 ## Notable changes
+
+### HEAD - Future 0.0.6
+
+- Added `theme` option that allows you to override theme detection (see #3)
+- Added support for `ansible` theme (see #3)
+- Added fallback to check `theme.extra.base_theme` from `mkdocs.yml` when other theme detection logic fails (see #3)
+- Added `debug` option
 
 ### Version 0.0.5
 

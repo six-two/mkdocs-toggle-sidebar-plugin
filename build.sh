@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Used by CI/CD pipeline to build <https://mkdocs-toggle-sidebar.six-two.dev>
+# Also used by me to locally test the plugin with different themes
 
 # Change into the project root
 cd -- "$( dirname -- "${BASH_SOURCE[0]}" )"
