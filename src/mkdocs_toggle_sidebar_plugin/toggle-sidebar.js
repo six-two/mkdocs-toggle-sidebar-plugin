@@ -82,7 +82,6 @@
         }
 
         registerKeyboardEventHandler();
-        customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
     });
 
     const createDefaultToggleButton = (toggleNavigation, toggleTOC) => {
@@ -119,4 +118,7 @@
         toggleTocVisibility: () => toggleVisibility(false, true),
         toggleAllVisibility: () => toggleVisibility(true, true)
     };
+
+    // Run this immediately instead of waiting for page.onload to prevent page flicker
+    customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
 }());
