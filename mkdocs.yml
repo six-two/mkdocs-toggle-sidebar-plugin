@@ -11,6 +11,7 @@ theme:
   features:
     - content.code.copy
     - navigation.footer
+    - navigation.instant # for issue #5
 
 plugins:
 - search

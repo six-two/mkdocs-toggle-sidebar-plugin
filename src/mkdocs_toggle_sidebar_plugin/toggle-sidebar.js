@@ -1,6 +1,7 @@
 (function() {
     const customDynamicStyle = document.createElement("style");
-    document.head.appendChild(customDynamicStyle);
+    // We must put it outside of the head and body, since they are replaced by the instant navigation feature in the Material theme
+    document.documentElement.appendChild(customDynamicStyle);
 
     const TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING = "[mkdocs-toggle-sidebar-plugin] Reference element for inserting 'toggle_button' not found. This version of the plugin may not be compatible with this version of the theme. Try updating both to the latest version. If that fails, you can open an GitHub issue.";
 
@@ -121,4 +122,5 @@
 
     // Run this immediately instead of waiting for page.onload to prevent page flicker
     customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
+    // console.log("Debug: hide sidebar completed");
 }());
