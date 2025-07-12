@@ -66,7 +66,7 @@
         }
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
+    const onPageLoadedAction = () => {
         console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\n T -> toggle table of contents sidebar\n M -> toggle navigation menu sidebar\n B -> toggle both sidebars (TOC and navigation)");
 
         const toggle_button = "TOGGLE_BUTTON_PLACEHOLDER";
@@ -83,7 +83,7 @@
         }
 
         registerKeyboardEventHandler();
-    });
+    }
 
     const createDefaultToggleButton = (toggleNavigation, toggleTOC) => {
         const toggleBtn = document.createElement("div");
@@ -123,4 +123,13 @@
     // Run this immediately instead of waiting for page.onload to prevent page flicker
     customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
     // console.log("Debug: hide sidebar completed");
+
+    // SEE https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
+    if (document.readyState === "loading") {
+        console.debug("Registering DOMContentLoaded event listener");
+        document.addEventListener("DOMContentLoaded", onPageLoadedAction);
+    } else {
+        console.debug("DOMContentLoaded has already fired");
+        onPageLoadedAction();
+    }
 }());
