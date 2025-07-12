@@ -25,6 +25,7 @@ class PluginConfig(Config):
     async_ = Type(bool, default=True)
     javascript = Type(str, default="assets/javascripts/toggle-sidebar.js")
     debug = Type(bool, default=False)
+    inline = Type(bool, default=False)
 
 
 def is_known_theme(theme_name: str) -> bool:
@@ -50,6 +51,7 @@ class Plugin(BasePlugin[PluginConfig]):
         It will make modify the config and initialize this plugin.
         """
         self.theme_function_definitions = None
+        self.inline_javascript = None
         if self.config.enabled:
             theme_name = self.config.theme
             # Default to automatically determining the theme
@@ -79,11 +81,16 @@ class Plugin(BasePlugin[PluginConfig]):
                     self.theme_function_definitions = f.read()
 
         if self.theme_function_definitions:
-            custom_script = ExtraScriptValue(self.config.javascript)
-            if self.config.async_:
-                custom_script.async_ = True
-            
-            config.extra_javascript.append(custom_script)
+            if self.config.inline:
+                # We cache it for performance reasons
+                self.inline_javascript = f"<script>{self.get_toggle_sidebar_javascript()}</script>"
+            else:
+                # Add a custom script reference
+                custom_script = ExtraScriptValue(self.config.javascript)
+                if self.config.async_:
+                    custom_script.async_ = True
+                
+                config.extra_javascript.append(custom_script)
         
         if self.config.toggle_button not in ALLOWED_TOGGLE_BUTTON_VALUES:
             raise PluginError(f"Unexpected value for 'toggle_button': '{self.config.toggle_button}'. Allowed values are {', '.join(ALLOWED_TOGGLE_BUTTON_VALUES)}")
@@ -95,8 +102,14 @@ class Plugin(BasePlugin[PluginConfig]):
         else:
             LOGGER.debug(message)
 
+    def on_post_page(self, html, /, *, page, config):
+        if self.inline_javascript:
+            html = html.replace("</head>", self.inline_javascript + "</head>")
+            print(self.inline_javascript)
+        return html
+
     def on_post_build(self, config: MkDocsConfig) -> None:
-        if self.theme_function_definitions:
+        if self.theme_function_definitions and not self.config.inline:
             target_path = os.path.join(config.site_dir, self.config.javascript)
             if os.path.exists(target_path):
                 # The file exists. This probably means, that the user wanted to override the default file
@@ -108,13 +121,16 @@ class Plugin(BasePlugin[PluginConfig]):
                 os.makedirs(parent_dir, exist_ok=True)
                 
                 # Copy the file, while also editing it on the fly
-                asset_path = os.path.join(SCRIPT_DIR, "toggle-sidebar.js")
-                with open(asset_path) as f:
-                    data = f.read()
-                data = data.replace("THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER", self.theme_function_definitions)
-                data = data.replace("TOC_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
-                data = data.replace("NAVIGATION_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
-                data = data.replace("TOGGLE_BUTTON_PLACEHOLDER", self.config.toggle_button)
+                javascript = self.get_toggle_sidebar_javascript()
                 with open(target_path, "w") as f:
-                    f.write(data)
+                    f.write(javascript)
 
+    def get_toggle_sidebar_javascript(self):
+        asset_path = os.path.join(SCRIPT_DIR, "toggle-sidebar.js")
+        with open(asset_path) as f:
+            data = f.read()
+        data = data.replace("THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER", self.theme_function_definitions)
+        data = data.replace("TOC_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
+        data = data.replace("NAVIGATION_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
+        data = data.replace("TOGGLE_BUTTON_PLACEHOLDER", self.config.toggle_button)
+        return data

@@ -22,6 +22,7 @@ plugins:
     show_toc_by_default: False
     toggle_button: all
     debug: True
+    inline: True
     # theme: material
 
 
