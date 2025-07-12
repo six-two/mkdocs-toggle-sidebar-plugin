@@ -11,18 +11,19 @@ theme:
   features:
     - content.code.copy
     - navigation.footer
-    - navigation.instant # for issue #5
+    # - navigation.instant # for issue #5
 
 plugins:
 - search
 - toggle-sidebar:
-    async: False
+    async: True
+    inline: False
+    # inline: True
     javascript: ./toggle-sidebar.js
     show_navigation_by_default: False
     show_toc_by_default: False
     toggle_button: all
     debug: True
-    inline: True
     # theme: material
 
 
