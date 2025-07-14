@@ -16,15 +16,15 @@ theme:
 plugins:
 - search
 - toggle-sidebar:
-    async: True
-    inline: False
-    # inline: True
-    javascript: ./toggle-sidebar.js
+    # async: True
+    inline: True
+    # javascript: ./toggle-sidebar.js
     show_navigation_by_default: False
     show_toc_by_default: False
     toggle_button: all
     debug: True
     # theme: material
+# - toggle-sidebar
 
 
 # SEE https://squidfunk.github.io/mkdocs-material/reference/admonitions/

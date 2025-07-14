@@ -134,9 +134,20 @@ Test `mkdocs`, `readthedocs` and `material` themes:
 python3 -m http.server --directory './public/'
 ```
 
+Test oldest python version supported by me (3.9):
+```bash
+docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash python:3.9 ./serve.sh
+```
+
+Test newest available python version (currently 3.13):
+```bash
+docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash python:latest ./serve.sh
+```
+
+
 ## Notable changes
 
-### HEAD - Future 0.0.6
+### Version 0.0.6
 
 - Fixed toggle button appearing delayed on slow loading pages (see #6)
 - Fixed behavior when using Material's `navigation.instant` feature (see #5)

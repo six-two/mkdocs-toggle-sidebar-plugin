@@ -6,9 +6,9 @@
 #
 babel==2.17.0
     # via mkdocs-material
-backrefs==5.8
+backrefs==5.9
     # via mkdocs-material
-certifi==2025.4.26
+certifi==2025.7.14
     # via requests
 charset-normalizer==3.4.2
     # via requests
@@ -29,7 +29,7 @@ jinja2==3.1.6
     # via
     #   mkdocs
     #   mkdocs-material
-markdown==3.8
+markdown==3.8.2
     # via
     #   mkdocs
     #   mkdocs-material
@@ -48,7 +48,7 @@ mkdocs==1.6.1
     #   mkdocs-material
 mkdocs-get-deps==0.2.0
     # via mkdocs
-mkdocs-material==9.6.14
+mkdocs-material==9.6.15
     # via -r requirements.in
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
@@ -60,9 +60,9 @@ pathspec==0.12.1
     # via mkdocs
 platformdirs==4.3.8
     # via mkdocs-get-deps
-pygments==2.19.1
+pygments==2.19.2
     # via mkdocs-material
-pymdown-extensions==10.15
+pymdown-extensions==10.16
     # via mkdocs-material
 python-dateutil==2.9.0.post0
     # via ghp-import
@@ -78,7 +78,7 @@ requests==2.32.4
     # via mkdocs-material
 six==1.17.0
     # via python-dateutil
-urllib3==2.4.0
+urllib3==2.5.0
     # via requests
 watchdog==6.0.0
     # via mkdocs

@@ -105,7 +105,6 @@ class Plugin(BasePlugin[PluginConfig]):
     def on_post_page(self, html, /, *, page, config):
         if self.inline_javascript:
             html = html.replace("</head>", self.inline_javascript + "</head>")
-            print(self.inline_javascript)
         return html
 
     def on_post_build(self, config: MkDocsConfig) -> None:
