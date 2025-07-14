@@ -126,10 +126,10 @@
 
     // SEE https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
     if (document.readyState === "loading") {
-        console.debug("Registering DOMContentLoaded event listener");
+        // console.debug("Registering DOMContentLoaded event listener");
         document.addEventListener("DOMContentLoaded", onPageLoadedAction);
     } else {
-        console.debug("DOMContentLoaded has already fired");
+        // console.debug("DOMContentLoaded has already fired");
         onPageLoadedAction();
     }
 }());

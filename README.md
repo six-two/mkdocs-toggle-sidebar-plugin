@@ -54,20 +54,28 @@ plugins:
 - search
 - toggle-sidebar:
     async: False
+    debug: True
+    enabled: True
+    inline: False
     javascript: ./toggle-sidebar.js
     show_navigation_by_default: False
     show_toc_by_default: False
+    theme: material
     toggle_button: all
 ```
 
 The following options exist:
 
 Option | Type | Default value | Description
---- | ---| ---
-async | `bool` | `True` | Asynchronously load the JavaScript file created by the plugin
+--- | ---| --- | ---
+async | `bool` | `False` | Asynchronously load the JavaScript file created by the plugin
+debug | `bool` | `False` | Show some debug messages during mkdocs build (for example related to theme detection)
+enabled | `bool` | `True` | Can be used to disable the plugin. Usually used in combination with environment variables like `enabled: !ENV [TOGGLE_SIDEBAR, false]` as described in [mkdocs's docs](https://www.mkdocs.org/user-guide/configuration/#enabled-option)
+inline | `bool` | `True` | Instead of storing the javascript code in the file specified by `javascript`, it is directly copied into each page. Slightly increases page size, but can improve load times a little bit and reduce flickering on page (re-)load
 javascript | `str` | `"assets/javascripts/toggle-sidebar.js"` | The path where to store the output file
 show_navigation_by_default | `bool` | `True` | Whether to show the navigation by default
 show_toc_by_default | `bool` | `True` | Whether to show the table of contents by default
+theme | `str` | `auto` | Used for theme detection. With `auto`, the plugin tries to automatically detect the theme. But you can also force it to use a specific theme preset that you know will work. Currently supported values: `material`/`ansible`, `mkdocs`, `readthedocs`.
 toggle_button | `str` | `"none"` | Can be set to show a toggle button (see below)
 
 
@@ -130,6 +138,9 @@ python3 -m http.server --directory './public/'
 
 ### HEAD - Future 0.0.6
 
+- Fixed toggle button appearing delayed on slow loading pages (see #6)
+- Fixed behavior when using Material's `navigation.instant` feature (see #5)
+- Added `inline` option that prevents page flickering on reload (see #4). It is now enabled by default and async is disabled by default, to prevent the flickering. To revert to the old behavior you can set `async: True` and `inline: False` in the plugin's config in your `mkdocs.yml`
 - Added `theme` option that allows you to override theme detection (see #3)
 - Added support for `ansible` theme (see #3)
 - Added fallback to check `theme.extra.base_theme` from `mkdocs.yml` when other theme detection logic fails (see #3)

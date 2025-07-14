@@ -22,10 +22,10 @@ class PluginConfig(Config):
     show_navigation_by_default = Type(bool, default=True)
     theme = Type(str, default="auto")
     toggle_button = Type(str, default="none")
-    async_ = Type(bool, default=True)
+    async_ = Type(bool, default=False)
     javascript = Type(str, default="assets/javascripts/toggle-sidebar.js")
     debug = Type(bool, default=False)
-    inline = Type(bool, default=False)
+    inline = Type(bool, default=True)
 
 
 def is_known_theme(theme_name: str) -> bool:
