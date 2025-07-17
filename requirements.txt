@@ -8,6 +8,8 @@ babel==2.17.0
     # via mkdocs-material
 backrefs==5.9
     # via mkdocs-material
+beautifulsoup4==4.13.4
+    # via -r requirements.in
 certifi==2025.7.14
     # via requests
 charset-normalizer==3.4.2
@@ -15,7 +17,10 @@ charset-normalizer==3.4.2
 click==8.1.8
     # via mkdocs
 colorama==0.4.6
-    # via mkdocs-material
+    # via
+    #   click
+    #   mkdocs
+    #   mkdocs-material
 ghp-import==2.1.0
     # via mkdocs
 idna==3.10
@@ -78,6 +83,10 @@ requests==2.32.4
     # via mkdocs-material
 six==1.17.0
     # via python-dateutil
+soupsieve==2.7
+    # via beautifulsoup4
+typing-extensions==4.14.1
+    # via beautifulsoup4
 urllib3==2.5.0
     # via requests
 watchdog==6.0.0
