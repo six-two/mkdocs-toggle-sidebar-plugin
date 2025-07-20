@@ -6,7 +6,6 @@ from mkdocs.config.base import Config
 from mkdocs.config.config_options import Type, ExtraScriptValue
 from mkdocs.exceptions import PluginError
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
 
 LOGGER = get_plugin_logger(__name__)
 SCRIPT_DIR = os.path.dirname(__file__)
@@ -44,6 +43,8 @@ def get_unknown_theme_message(theme_name: str, auto_detect_enabled: bool) -> str
         basic_help = "You are overwriting the theme in this plugin's configuration in your mkdocs.yml. Make sure you spelled the theme's name correctly."
     return f"Theme '{theme_name}' is not (yet) supported. The currently supported themes are: {', '.join(KNOWN_THEME_NAMES)}.\nRecommended steps:\n1. {basic_help}\n2. Try updating this plugin to the latest version: pip install -U mkdocs-toggle-sidebar-plugin\n3. Check if an issue for this theme exists: https://github.com/six-two/mkdocs-toggle-sidebar-plugin/issues\n4. If no issue exists feel free to open one. Please put the theme name and path where to download it in the issue"
     
+def get_base_url_by_url(url: str):
+    return url.count('/') * '../'
 
 class Plugin(BasePlugin[PluginConfig]):
     def on_config(self, config: MkDocsConfig, **kwargs) -> MkDocsConfig:
@@ -95,7 +96,9 @@ class Plugin(BasePlugin[PluginConfig]):
         head = soup.find("head")
 
         if self.config.enabled and self.theme_function_definitions and head:
-            script = soup.new_tag("script", src=urljoin(config.site_url, self.config.javascript.lstrip("./")))
+            base_url = get_base_url_by_url(page.url)
+            print(base_url)
+            script = soup.new_tag("script", src=f'{base_url}/{self.config.javascript.lstrip("./")}')
             if self.config.async_:
                 script["async"] = ""
             head.append(script)
