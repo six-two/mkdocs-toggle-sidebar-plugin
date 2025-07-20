@@ -99,7 +99,6 @@ class Plugin(BasePlugin[PluginConfig]):
 
         if self.config.enabled and self.theme_function_definitions and head:
             base_url = get_base_url_by_url(page.url)
-            print(base_url)
             script = soup.new_tag("script", src=f'{base_url}/{self.config.javascript.lstrip("./")}')
             if self.config.async_:
                 script["async"] = ""
