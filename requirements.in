@@ -2,4 +2,3 @@
 # Version pinning is used to prevent accidentially breaking my CI pipeline. You can probably use whatever version you like to use, as long as it is somewhat recent
 mkdocs>=1.5
 mkdocs-material
-beautifulsoup4

@@ -5,7 +5,6 @@ from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.config.base import Config
 from mkdocs.config.config_options import Type, ExtraScriptValue
 from mkdocs.exceptions import PluginError
-from bs4 import BeautifulSoup
 
 LOGGER = get_plugin_logger(__name__)
 SCRIPT_DIR = os.path.dirname(__file__)
@@ -26,6 +25,7 @@ class PluginConfig(Config):
     async_ = Type(bool, default=False)
     javascript = Type(str, default="assets/javascripts/toggle-sidebar.js")
     debug = Type(bool, default=False)
+    inline = Type(bool, default=False)
 
 
 def is_known_theme(theme_name: str) -> bool:
@@ -55,6 +55,7 @@ class Plugin(BasePlugin[PluginConfig]):
         It will make modify the config and initialize this plugin.
         """
         self.theme_function_definitions = None
+        self.inline_javascript = None
         if self.config.enabled:
             theme_name = self.config.theme
             # Default to automatically determining the theme
@@ -73,6 +74,10 @@ class Plugin(BasePlugin[PluginConfig]):
             else:
                 if not is_known_theme(theme_name):
                     LOGGER.warning(get_unknown_theme_message(theme_name, False))
+            
+            # Show deprecated warning
+            if self.config.inline == True:
+                LOGGER.warning("The inline=True attribute has been deprecated; please use inline=False instead.")
 
             # If the theme is known to be based on another theme, then we resolve it to the base theme
             resolved_theme_name = THEME_COMPATIBILITY.get(theme_name, theme_name)
@@ -82,6 +87,10 @@ class Plugin(BasePlugin[PluginConfig]):
                 self.debug(f"Using JavaScript {resolved_theme_name}.js for theme {theme_name}")
                 with open(theme_path) as f:
                     self.theme_function_definitions = f.read()
+
+            if self.theme_function_definitions and self.config.inline:
+                # We cache it for performance reasons
+                self.inline_javascript = f"<script>{self.get_toggle_sidebar_javascript()}</script>"
         
         if self.config.toggle_button not in ALLOWED_TOGGLE_BUTTON_VALUES:
             raise PluginError(f"Unexpected value for 'toggle_button': '{self.config.toggle_button}'. Allowed values are {', '.join(ALLOWED_TOGGLE_BUTTON_VALUES)}")
@@ -94,20 +103,23 @@ class Plugin(BasePlugin[PluginConfig]):
             LOGGER.debug(message)
 
     def on_post_page(self, html, /, *, page, config):
-        soup = BeautifulSoup(html, "html.parser")
-        head = soup.find("head")
-
-        if self.config.enabled and self.theme_function_definitions and head:
-            base_url = get_base_url_by_url(page.url)
-            script = soup.new_tag("script", src=f'{base_url}/{self.config.javascript.lstrip("./")}')
-            if self.config.async_:
-                script["async"] = ""
-            head.append(script)
+        if self.config.enabled and self.theme_function_definitions:
+            if self.inline_javascript:
+                html = html.replace("</head>", self.inline_javascript + "</head>")
+            else:
+                base_url = get_base_url_by_url(page.url)
+                script_src = base_url + self.config.javascript.lstrip("./")
+                script = None
+                if self.config.async_:
+                    script = f'<script src="{script_src}" async></script>'
+                else:
+                    script = f'<script src="{script_src}"></script>'
+                html = html.replace("</head>", script + "</head>")
         
-        return str(soup)
+        return html
 
     def on_post_build(self, config: MkDocsConfig) -> None:
-        if self.theme_function_definitions:
+        if self.theme_function_definitions and not self.config.inline:
             target_path = os.path.join(config.site_dir, self.config.javascript)
             if os.path.exists(target_path):
                 # The file exists. This probably means, that the user wanted to override the default file
