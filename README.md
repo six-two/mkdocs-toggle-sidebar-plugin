@@ -71,7 +71,7 @@ Option | Type | Default value | Description
 async | `bool` | `False` | Asynchronously load the JavaScript file created by the plugin
 debug | `bool` | `False` | Show some debug messages during mkdocs build (for example related to theme detection)
 enabled | `bool` | `True` | Can be used to disable the plugin. Usually used in combination with environment variables like `enabled: !ENV [TOGGLE_SIDEBAR, false]` as described in [mkdocs's docs](https://www.mkdocs.org/user-guide/configuration/#enabled-option)
-inline | `bool` | `True` | Instead of storing the javascript code in the file specified by `javascript`, it is directly copied into each page. Slightly increases page size, but can improve load times a little bit and reduce flickering on page (re-)load
+inline | `bool` | `False` | Instead of storing the javascript code in the file specified by `javascript`, it is directly copied into each page. Slightly increases page size, but can improve load times a little bit and reduce flickering on page (re-)load
 javascript | `str` | `"assets/javascripts/toggle-sidebar.js"` | The path where to store the output file
 show_navigation_by_default | `bool` | `True` | Whether to show the navigation by default
 show_toc_by_default | `bool` | `True` | Whether to show the table of contents by default

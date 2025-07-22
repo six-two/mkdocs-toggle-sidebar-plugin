@@ -22,6 +22,8 @@ plugins:
     show_toc_by_default: False
     toggle_button: all
     debug: True
+    # javascript: 'test"></script><script>alert(1)</script>"'
+    # javascript: custom-js-test.js
     # theme: material
 # - toggle-sidebar
 

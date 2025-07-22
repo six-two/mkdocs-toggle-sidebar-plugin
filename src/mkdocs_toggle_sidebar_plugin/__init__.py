@@ -1,4 +1,5 @@
 import os
+import urllib.parse
 # pip dependency
 from mkdocs.plugins import BasePlugin, get_plugin_logger
 from mkdocs.config.defaults import MkDocsConfig
@@ -75,10 +76,6 @@ class Plugin(BasePlugin[PluginConfig]):
                 if not is_known_theme(theme_name):
                     LOGGER.warning(get_unknown_theme_message(theme_name, False))
             
-            # Show deprecated warning
-            if self.config.inline == True:
-                LOGGER.warning("The inline=True attribute has been deprecated; please use inline=False instead.")
-
             # If the theme is known to be based on another theme, then we resolve it to the base theme
             resolved_theme_name = THEME_COMPATIBILITY.get(theme_name, theme_name)
 
@@ -90,7 +87,7 @@ class Plugin(BasePlugin[PluginConfig]):
 
             if self.theme_function_definitions and self.config.inline:
                 # We cache it for performance reasons
-                self.inline_javascript = f"<script>{self.get_toggle_sidebar_javascript()}</script>"
+                self.inline_javascript = f"<script>{self.get_toggle_sidebar_javascript(config)}</script>"
         
         if self.config.toggle_button not in ALLOWED_TOGGLE_BUTTON_VALUES:
             raise PluginError(f"Unexpected value for 'toggle_button': '{self.config.toggle_button}'. Allowed values are {', '.join(ALLOWED_TOGGLE_BUTTON_VALUES)}")
@@ -108,8 +105,7 @@ class Plugin(BasePlugin[PluginConfig]):
                 html = html.replace("</head>", self.inline_javascript + "</head>")
             else:
                 base_url = get_base_url_by_url(page.url)
-                script_src = base_url + self.config.javascript.lstrip("./")
-                script = None
+                script_src = urllib.parse.quote(base_url + self.config.javascript.lstrip("./"))
                 if self.config.async_:
                     script = f'<script src="{script_src}" async></script>'
                 else:
@@ -121,22 +117,23 @@ class Plugin(BasePlugin[PluginConfig]):
     def on_post_build(self, config: MkDocsConfig) -> None:
         if self.theme_function_definitions and not self.config.inline:
             target_path = os.path.join(config.site_dir, self.config.javascript)
-            if os.path.exists(target_path):
-                # The file exists. This probably means, that the user wanted to override the default file
-                # So we just do nothing
-                pass
-            else:
-                # Make sure that the folder exists
-                parent_dir = os.path.dirname(target_path)
-                os.makedirs(parent_dir, exist_ok=True)
-                
-                # Copy the file, while also editing it on the fly
-                javascript = self.get_toggle_sidebar_javascript()
-                with open(target_path, "w") as f:
-                    f.write(javascript)
+            # To properly replace placeholders, we need to replace the JS file, even if it already exists
+            # Make sure that the folder exists
+            parent_dir = os.path.dirname(target_path)
+            os.makedirs(parent_dir, exist_ok=True)
+            
+            # Copy the file, while also editing it on the fly
+            javascript = self.get_toggle_sidebar_javascript(config)
+            with open(target_path, "w") as f:
+                f.write(javascript)
 
-    def get_toggle_sidebar_javascript(self):
-        asset_path = os.path.join(SCRIPT_DIR, "toggle-sidebar.js")
+    def get_toggle_sidebar_javascript(self, config: MkDocsConfig):
+        # Default to the output path of the JavaScript file, so that users can modify the JavaScript (even in inline mode)
+        asset_path = os.path.join(config.docs_dir, self.config.javascript)
+        if not os.path.exists(asset_path):
+            asset_path = os.path.join(SCRIPT_DIR, "toggle-sidebar.js")
+        self.debug(f"[*] Loading JavaScript template from {asset_path}")
+
         with open(asset_path) as f:
             data = f.read()
         data = data.replace("THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER", self.theme_function_definitions)
