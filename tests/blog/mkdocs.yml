@@ -1,0 +1,36 @@
+site_name: mkdocs-toggle-sidebar-plugin
+repo_url: https://github.com/six-two/mkdocs-toggle-sidebar-plugin
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.footer
+
+nav:
+  - Index:
+    - index.md
+  - Blog:
+    - posts/blog.md
+
+plugins:
+- search
+- toggle-sidebar:
+    toggle_button: all
+- blog:
+    post_slugify: !!python/object/apply:pymdownx.slugs.slugify
+      kwds:
+        case: lower
+    blog_dir: "./"
+    post_url_format: "{categories}/{file}"
+    post_date_format: medium
+    post_url_max_categories: 1
+    blog_toc: true
+
+
+# SEE https://squidfunk.github.io/mkdocs-material/reference/admonitions/
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.keys
