@@ -29,10 +29,11 @@ if (!showTOC) {
         }
         
     // We always have to show the navigation in mobile view, otherwise the hamburger menu is broken
+    // In material for mkdocs's blog mode, navigation's class is '.md-sidebar--post', see #9
     if (!showNavigation) {
         style += `
 @media screen and (min-width: 76.1875em) {
-    div.md-sidebar.md-sidebar--primary {
+    div.md-sidebar.md-sidebar--primary, div.md-sidebar.md-sidebar--post {
         display: none;
     }
 }
