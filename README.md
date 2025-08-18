@@ -147,6 +147,10 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 ## Notable changes
 
+### Version 0.0.7
+
+- Fixed sidebar not hidden in material's blog mode (see #9). Thank you @ZnPdCo for finding and fixing the issue.
+
 ### Version 0.0.6
 
 - Fixed toggle button appearing delayed on slow loading pages (see #6)
