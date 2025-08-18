@@ -11,6 +11,7 @@ Click on one of them to see the site build with that theme and try it out:
 - [Material for MkDocs](/material/)
 - [mkdocs (builtin, default)](/mkdocs/)
 - [readthedocs (builtin)](/readthedocs/)
+- [Material for MkDocs - Blog mode](/material-blog/blog/)
 
 ## Long text
 

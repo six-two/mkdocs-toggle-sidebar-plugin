@@ -31,9 +31,13 @@ build_with_theme() {
     python3 -m mkdocs build -t "$1" -d public/"$1"
 }
 
+# Build the normal sites
 build_with_theme mkdocs
 build_with_theme readthedocs
 build_with_theme material
+
+# Build the blog site
+python3 -m mkdocs build --config-file tests/blog/mkdocs.yml -d ../../public/material-blog
 
 echo "[*] To view the site run:"
 echo python3 -m http.server --directory "'$(pwd)/public/'"
