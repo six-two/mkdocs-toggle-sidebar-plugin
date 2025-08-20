@@ -147,6 +147,10 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 ## Notable changes
 
+### HEAD
+
+- Fixed toggle button not shown in certain window dimensions in Material theme (see #11)
+
 ### Version 0.0.7
 
 - Fixed sidebar not hidden in material's blog mode (see #9). Thank you @ZnPdCo for finding and fixing the issue.
