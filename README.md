@@ -147,7 +147,7 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 ## Notable changes
 
-### HEAD
+### Version 0.0.8
 
 - Fixed toggle button not shown in certain window dimensions in Material theme (see #11)
 
