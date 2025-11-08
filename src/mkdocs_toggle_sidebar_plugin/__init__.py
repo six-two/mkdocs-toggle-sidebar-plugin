@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 from mkdocs.plugins import BasePlugin, get_plugin_logger
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.config.base import Config
-from mkdocs.config.config_options import Type, ExtraScriptValue
+from mkdocs.config.config_options import Type
 from mkdocs.exceptions import PluginError
 
 LOGGER = get_plugin_logger(__name__)

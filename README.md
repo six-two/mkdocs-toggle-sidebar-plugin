@@ -94,6 +94,16 @@ It is usually in the nav or the top bar.
 Clicking the button will toggle the navigation, table of contents, or both (depending on the supplied value).
 By leaving the field empty or setting it to `none`, no button is added.
 
+You can set a custom icon for the button, using the `button_toggle_icon` configuration.
+The icon should be a 24px square SVG file.
+
+The tooltip shown when hovering over the button can also be changed.
+Depending on which value you set in `toggle_button`, a different option is used:
+
+- If `toggle_button` is `all`, then `button_toggle_both_tooltip` is used.
+- If `toggle_button` is `navigation`, then `button_toggle_nav_tooltip` is used.
+- If `toggle_button` is `toc`, then `button_toggle_toc_tooltip` is used.
+
 ### Exported API functions
 
 This plugin exposes some JavaScript functions, that can show, hide or toggle the visibility of the sidebars.
@@ -155,7 +165,7 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 ## Notable changes
 
-### HEAD
+### Version 0.0.9
 
 - Added `button_toggle_both_tooltip`, `button_toggle_nav_tooltip`, `button_toggle_toc_tooltip` and `button_toggle_icon` options for customizing the toggle button (see #12)
 
