@@ -62,6 +62,10 @@ plugins:
     show_toc_by_default: False
     theme: material
     toggle_button: all
+    button_toggle_both_tooltip: Toggle Navigation and Table of Contents
+    button_toggle_nav_tooltip: Toggle Navigation
+    button_toggle_toc_tooltip: Toggle Table of Contents
+    button_toggle_icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>'
 ```
 
 The following options exist:
@@ -77,6 +81,10 @@ show_navigation_by_default | `bool` | `True` | Whether to show the navigation by
 show_toc_by_default | `bool` | `True` | Whether to show the table of contents by default
 theme | `str` | `auto` | Used for theme detection. With `auto`, the plugin tries to automatically detect the theme. But you can also force it to use a specific theme preset that you know will work. Currently supported values: `material`/`ansible`, `mkdocs`, `readthedocs`.
 toggle_button | `str` | `"none"` | Can be set to show a toggle button (see below)
+button_toggle_both_tooltip | `str` | `"Toggle Navigation and Table of Contents"` | Tooltip to show when `toggle_button` is `both`
+button_toggle_nav_tooltip | `str` | `"Toggle Navigation"` | Tooltip to show when `toggle_button` is `navigation`
+button_toggle_toc_tooltip | `str` | `"Toggle Table of Contents"` | Tooltip to show when `toggle_button` is `toc`
+button_toggle_icon | `str` | SVG of hamburger menu (three vertical bars on top of each other) | SVG to show for the toggle button. Should be 24px by 24px in size. 
 
 
 #### Toggle button
@@ -95,7 +103,7 @@ In short there are:
 
 - `MkdocsToggleSidebarPlugin.setNavigationVisibility(show: bool)`
 - `MkdocsToggleSidebarPlugin.setTocVisibility(show: bool)`
-- `MkdocsToggleSidebarPlugin.setAllVisibility: (showNavigation: bool, showTOC: bool)`
+- `MkdocsToggleSidebarPlugin.setAllVisibility(showNavigation: bool, showTOC: bool)`
 - `MkdocsToggleSidebarPlugin.toggleNavigationVisibility()`
 - `MkdocsToggleSidebarPlugin.toggleTocVisibility()`
 - `MkdocsToggleSidebarPlugin.toggleAllVisibility()`
@@ -146,6 +154,10 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 
 ## Notable changes
+
+### HEAD
+
+- Added `button_toggle_both_tooltip`, `button_toggle_nav_tooltip`, `button_toggle_toc_tooltip` and `button_toggle_icon` options for customizing the toggle button (see #12)
 
 ### Version 0.0.8
 

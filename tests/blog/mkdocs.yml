@@ -34,3 +34,8 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.keys
+
+validation:
+  links:
+    absolute_links: ignore
+

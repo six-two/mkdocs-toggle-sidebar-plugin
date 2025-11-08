@@ -88,13 +88,13 @@
     const createDefaultToggleButton = (toggleNavigation, toggleTOC) => {
         const toggleBtn = document.createElement("div");
         toggleBtn.className = "mkdocs-toggle-sidebar-button";
-        toggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>`;
+        toggleBtn.innerHTML = BUTTON_TOGGLE_ICON_PLACEHOLDER;
         if (toggleNavigation && toggleTOC) {
-            toggleBtn.title = "Toggle Navigation and Table of Contents";
+            toggleBtn.title = BUTTON_TOGGLE_BOTH_TOOLTIP_PLACEHOLDER;
         } else if (toggleNavigation) {
-            toggleBtn.title = "Toggle Navigation";
+            toggleBtn.title = BUTTON_TOGGLE_NAV_TOOLTIP_PLACEHOLDER;
         } else if (toggleTOC) {
-            toggleBtn.title = "Toggle Table of Contents";
+            toggleBtn.title = BUTTON_TOGGLE_TOC_TOOLTIP_PLACEHOLDER;
         }
         toggleBtn.addEventListener("click", () => toggleVisibility(toggleNavigation, toggleTOC));
         return toggleBtn;

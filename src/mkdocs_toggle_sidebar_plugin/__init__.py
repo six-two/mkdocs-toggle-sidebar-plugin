@@ -1,5 +1,7 @@
+import json
 import os
 import urllib.parse
+import xml.etree.ElementTree as ET
 # pip dependency
 from mkdocs.plugins import BasePlugin, get_plugin_logger
 from mkdocs.config.defaults import MkDocsConfig
@@ -16,6 +18,7 @@ THEME_COMPATIBILITY = {
 }
 # May not always be accurate, this is just for a more helpful error message
 KNOWN_THEME_NAMES = ["material", "mkdocs", "readthedocs"] + list(THEME_COMPATIBILITY.keys())
+DEFAULT_TOGGLE_BUTTON_ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>'
 
 class PluginConfig(Config):
     enabled = Type(bool, default=True)
@@ -27,6 +30,10 @@ class PluginConfig(Config):
     javascript = Type(str, default="assets/javascripts/toggle-sidebar.js")
     debug = Type(bool, default=False)
     inline = Type(bool, default=False)
+    button_toggle_both_tooltip = Type(str, default="Toggle Navigation and Table of Contents")
+    button_toggle_nav_tooltip = Type(str, default="Toggle Navigation")
+    button_toggle_toc_tooltip = Type(str, default="Toggle Table of Contents")
+    button_toggle_icon = Type(str, default=DEFAULT_TOGGLE_BUTTON_ICON)
 
 
 def is_known_theme(theme_name: str) -> bool:
@@ -49,14 +56,22 @@ def get_base_url_by_url(url: str):
         return './'
     return url.count('/') * '../'
 
+def escape_for_javascript_string(value: str) -> str:
+    # JSON escaping should be save for text added to a double quote (") JavaScript string
+    return json.dumps(value)
+
 class Plugin(BasePlugin[PluginConfig]):
     def on_config(self, config: MkDocsConfig, **kwargs) -> MkDocsConfig:
         """
         Called once when the config is loaded.
         It will make modify the config and initialize this plugin.
         """
+        # This will raise an exception or print a warning if something is missconfigured
+        self.validate_config_options()
+
         self.theme_function_definitions = None
         self.inline_javascript = None
+        
         if self.config.enabled:
             theme_name = self.config.theme
             # Default to automatically determining the theme
@@ -89,9 +104,29 @@ class Plugin(BasePlugin[PluginConfig]):
                 # We cache it for performance reasons
                 self.inline_javascript = f"<script>{self.get_toggle_sidebar_javascript(config)}</script>"
         
+        return config
+    
+    def validate_config_options(self) -> None:
         if self.config.toggle_button not in ALLOWED_TOGGLE_BUTTON_VALUES:
             raise PluginError(f"Unexpected value for 'toggle_button': '{self.config.toggle_button}'. Allowed values are {', '.join(ALLOWED_TOGGLE_BUTTON_VALUES)}")
-        return config
+
+        try:
+            root = ET.fromstring(self.config.button_toggle_icon)
+            width = root.get("width", "").replace("px", "")
+            height = root.get("height", "").replace("px", "")
+            # check size of SVG
+            if width and width != "24":
+                LOGGER.warning(f"button_toggle_icon should have a width of 24, but has {width}")
+            if height and height != "24":
+                LOGGER.warning(f"button_toggle_icon should have a height of 24, but has {height}")
+            # If width and height are not set, fall abck to viewbox
+            if not width and not height:
+                viewBox = root.get("viewBox", "")
+                if viewBox != "0 0 24 24":
+                    LOGGER.warning(f"button_toggle_icon should have a size of 24x24, but has a viewbox of {viewBox} and no explicit size")
+
+        except Exception as ex:
+            LOGGER.error(f"Failed to parse and validate SVG button_toggle_icon: {ex}")
 
     def debug(self, message: str) -> None:
         if self.config.debug:
@@ -136,8 +171,13 @@ class Plugin(BasePlugin[PluginConfig]):
 
         with open(asset_path) as f:
             data = f.read()
-        data = data.replace("THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER", self.theme_function_definitions)
+
+        data = data.replace("THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER", self.theme_function_definitions or "")
         data = data.replace("TOC_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
         data = data.replace("NAVIGATION_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
         data = data.replace("TOGGLE_BUTTON_PLACEHOLDER", self.config.toggle_button)
+        data = data.replace("BUTTON_TOGGLE_ICON_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_icon))
+        data = data.replace("BUTTON_TOGGLE_BOTH_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_both_tooltip))
+        data = data.replace("BUTTON_TOGGLE_NAV_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_nav_tooltip))
+        data = data.replace("BUTTON_TOGGLE_TOC_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_toc_tooltip))
         return data
