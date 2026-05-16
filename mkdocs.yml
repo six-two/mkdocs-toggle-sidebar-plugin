@@ -4,7 +4,7 @@ repo_url: https://github.com/six-two/mkdocs-toggle-sidebar-plugin
 # theme: readthedocs
 
 theme:
-  name: material
+  name: materialx
   # name: ansible
   # extra:
   #   base_theme: material

@@ -15,6 +15,7 @@ ALLOWED_TOGGLE_BUTTON_VALUES = ["none", "navigation", "toc", "all"]
 # This is a map of compatible themes. For example 'ansible' inherits from 'material', so the material javascript will work for the ansible theme too
 THEME_COMPATIBILITY = {
     "ansible": "material",
+    "materialx": "material",
 }
 # May not always be accurate, this is just for a more helpful error message
 KNOWN_THEME_NAMES = ["material", "mkdocs", "readthedocs"] + list(THEME_COMPATIBILITY.keys())
