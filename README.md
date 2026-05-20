@@ -16,6 +16,10 @@ The settings are stored using the `localStorage` object, so that it will persist
 I wrote it after getting frustrated by the browser's `Find in page` function matching way to many links in the navigation sidebar instead of searching in the actual page's content.
 
 
+## Note on Zensical, MkDocs 1.x, ProperDocs, etc
+
+To make it easy to keep it up to date for all my plugins, I hosted my [intentions of what platforms to support](https://six-two.dev/plugin-support-for-mkdocs-and-forks/) on my website.
+
 ## Usage
 
 ### Setup

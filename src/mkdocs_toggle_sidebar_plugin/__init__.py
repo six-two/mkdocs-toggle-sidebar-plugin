@@ -3,11 +3,16 @@ import os
 import urllib.parse
 import xml.etree.ElementTree as ET
 # pip dependency
-from mkdocs.plugins import BasePlugin, get_plugin_logger
-from mkdocs.config.defaults import MkDocsConfig
-from mkdocs.config.base import Config
-from mkdocs.config.config_options import Type
-from mkdocs.exceptions import PluginError
+try:
+    from mkdocs.plugins import BasePlugin, get_plugin_logger
+    from mkdocs.config.defaults import MkDocsConfig
+    from mkdocs.config.base import Config
+    from mkdocs.config.config_options import Type
+    from mkdocs.exceptions import PluginError
+except ImportError as ex:
+    print("[-] Error importing 'mkdocs'. Please install 'properdocs' (recommended) or 'mkdocs<=1.6.1' (deprecated) with pip")
+    exit(1)
+
 
 LOGGER = get_plugin_logger(__name__)
 SCRIPT_DIR = os.path.dirname(__file__)
