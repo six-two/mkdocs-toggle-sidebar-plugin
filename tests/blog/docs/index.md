@@ -8,10 +8,13 @@ For details of how to set up the plugin see the [README on GitHub](https://githu
 This plugin should support the following themes.
 Click on one of them to see the site build with that theme and try it out:
 
+- [MaterialX](/materialx/)
+- [MaterialX - Blog mode](/materialx-blog/blog/)
 - [Material for MkDocs](/material/)
-- [mkdocs (builtin, default)](/mkdocs/)
-- [readthedocs (builtin)](/readthedocs/)
 - [Material for MkDocs - Blog mode](/material-blog/blog/)
+- [mkdocs](/mkdocs/)
+- [readthedocs](/readthedocs/)
+
 
 ## Long text
 

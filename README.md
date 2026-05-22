@@ -133,6 +133,7 @@ Theme            | Theme version | Plugin version | Status
 ---              | ---           | ---            | ---
 mkdocs-ansible   | 25.6.0        | 0.0.6          | works
 mkdocs-material  | 9.6.14        | 0.0.4+         | works
+mkdocs-materialx | 10.1.5        | 0.1.0          | works        
 mkdocs (default) | 1.6.1         | 0.0.4+         | works
 readthedocs      | 1.6.1         | 0.0.4+         | works
 
@@ -168,6 +169,11 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 
 ## Notable changes
+
+### HEAD (Future Version 0.1.0)
+
+- Added autodetection for [MaterialX](https://github.com/jaywhj/mkdocs-materialx) theme.
+- Removed dependency declaration of `mkdocs`
 
 ### Version 0.0.9
 
