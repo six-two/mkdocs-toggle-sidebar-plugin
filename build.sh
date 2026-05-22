@@ -8,11 +8,13 @@ MKDOCS=properdocs
 # Change into the project root
 cd -- "$( dirname -- "${BASH_SOURCE[0]}" )"
 
-# If you created a virtual python environment, source it
-if [[ -f venv/bin/activate ]]; then
-    echo "[*] Using virtual python environment"
-    source venv/bin/activate
+# Even Vercel needs venvs now, since otherwise pip will not work
+if [[ ! -f venv/bin/activate ]]; then
+    echo "[*] Creating virtual python environment"
+    python3 -m venv venv
 fi
+echo "[*] Using virtual python environment"
+source venv/bin/activate
 
 echo "[*] Installing dependencies"
 python3 -m pip install -r requirements.txt
