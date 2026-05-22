@@ -170,7 +170,7 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 ## Notable changes
 
-### HEAD (Future Version 0.1.0)
+### Version 0.1.0
 
 - Added autodetection for [MaterialX](https://github.com/jaywhj/mkdocs-materialx) theme.
 - Removed dependency declaration of `mkdocs`
