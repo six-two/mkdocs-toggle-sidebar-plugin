@@ -9,18 +9,23 @@ MKDOCS=properdocs
 cd -- "$( dirname -- "${BASH_SOURCE[0]}" )"
 
 # Even Vercel needs venvs now, since otherwise pip will not work
-if [[ ! -f venv/bin/activate ]]; then
-    echo "[*] Creating virtual python environment"
-    python3 -m venv venv
-fi
-echo "[*] Using virtual python environment"
-source venv/bin/activate
+# Material and MaterialX conflict, so they need separate venvs: https://github.com/jaywhj/mkdocs-materialx/issues/86
+activate_venv() {
+    deactivate # if in a venv, exit it
+    if [[ ! -f "venv-$1/bin/activate" ]]; then
+        echo "[*] Creating virtual python environment: $1"
+        python3 -m venv "venv-$1"
+    fi
+    echo "[*] Using virtual python environment: $1"
+    source "venv-$1/bin/activate"
 
-echo "[*] Installing dependencies"
-python3 -m pip install -r requirements.txt
+    echo "[*] Installing dependencies"
+    python3 -m pip install -r requirements-$1.txt
 
-# Install the pip package
-python3 -m pip install .
+    # Install the pip package
+    python3 -m pip install .
+}
+
 
 # delete the output dir
 [[ -d public ]] && rm -rf public
@@ -28,8 +33,12 @@ python3 -m pip install .
 # Create a fresh output dir
 mkdir public
 
-# Create a redirect to the default theme (material)
+# Create a redirect to the default theme (materialx)
 cp redirect.html public/index.html
+
+# ensure they use the same links to all test sites
+cp docs/index.md tests/blog/docs/index.md
+cat tests/blog/blog-metadata.txt docs/index.md > tests/blog/docs/posts/blog.md
 
 build_with_theme() {
     echo "[*] Building with theme $1"
@@ -41,20 +50,16 @@ build_blog_with_theme() {
     python3 -m $MKDOCS build -f tests/blog/mkdocs.yml -t "$1" -d "../../public/$1-blog"
 }
 
-
-# Build the normal sites
+# Build the normal and blog sites
+activate_venv materialx
 build_with_theme mkdocs
 build_with_theme readthedocs
-build_with_theme material
 build_with_theme materialx
-
-# ensure they use the same links to all test sites
-cp docs/index.md tests/blog/docs/index.md
-cat tests/blog/blog-metadata.txt docs/index.md > tests/blog/docs/posts/blog.md
-
-# Build the blog site
-build_blog_with_theme material
 build_blog_with_theme materialx
+
+activate_venv material
+build_with_theme material
+build_blog_with_theme material
 
 if [[ "$1" == "serve" ]]; then
     python3 -m http.server --directory "public/"

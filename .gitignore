@@ -2,6 +2,9 @@
 public/
 site/
 
+# Venvs
+venv-*/
+
 # macOS stuff
 .DS_Store
 
