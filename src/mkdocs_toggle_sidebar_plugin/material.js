@@ -1,6 +1,13 @@
 const setCombinedVisibility = (showNavigation, showTOC) => {
-    // Hide the button when on mobile (and menu us shown as hamburger menu anyways).
-    // Uses the 60em threshold that is used for hiding the TOC, search bar, repo info (name + stars), etc
+    // Hide the button when everything it toggles is hidden anyways (and the menu is shown as hamburger menu).
+    // The navigation sidebar collapses into the drawer (with the theme's own hamburger button) below 76.1875em.
+    // The TOC column stays visible down to the 60em threshold (also used for hiding the search bar,
+    // repo info (name + stars), etc), unless the theme's 'toc.integrate' feature moves the TOC inside
+    // the navigation sidebar - then it collapses together with the navigation at 76.1875em.
+    const toggleButtonMode = "TOGGLE_BUTTON_PLACEHOLDER";
+    const tocIsIntegrated = TOC_IS_INTEGRATED_PLACEHOLDER;
+    const canToggleTocColumn = (toggleButtonMode == "toc" || toggleButtonMode == "all") && !tocIsIntegrated;
+    const buttonHideBreakpoint = canToggleTocColumn ? "60em" : "76.1875em";
 
     let style = `
 .mkdocs-toggle-sidebar-button {
@@ -9,7 +16,7 @@ const setCombinedVisibility = (showNavigation, showTOC) => {
     margin-left: 1rem;
 }
 
-@media screen and (max-width: 60em) {
+@media screen and (max-width: ${buttonHideBreakpoint}) {
     .mkdocs-toggle-sidebar-button {
         display: none;
     }
