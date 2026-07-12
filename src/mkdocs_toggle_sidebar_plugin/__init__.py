@@ -180,7 +180,7 @@ class Plugin(BasePlugin[PluginConfig]):
 
         data = data.replace("THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER", self.theme_function_definitions or "")
         data = data.replace("TOC_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
-        data = data.replace("NAVIGATION_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
+        data = data.replace("NAVIGATION_DEFAULT_PLACEHOLDER", "true" if self.config.show_navigation_by_default else "false")
         data = data.replace("TOGGLE_BUTTON_PLACEHOLDER", self.config.toggle_button)
         data = data.replace("BUTTON_TOGGLE_ICON_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_icon))
         data = data.replace("BUTTON_TOGGLE_BOTH_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_both_tooltip))
