@@ -169,6 +169,14 @@ class Plugin(BasePlugin[PluginConfig]):
                 f.write(javascript)
 
     def get_toggle_sidebar_javascript(self, config: MkDocsConfig):
+        theme_features = config.theme.get("features") or []
+        merged_toc_and_navigation = "toc.integrate" in theme_features or config.theme.name == "readthedocs"
+
+        toggle_button_target = self.config.toggle_button
+        if merged_toc_and_navigation and toggle_button_target == "toc":
+            LOGGER.warning("You used 'toggle_button: toc' on a theme where the TOC and navigation are combined. The value has been changed to 'all' so that the button will toggle the bar (instead of nothing)")
+            toggle_button_target = "all"
+
         # Default to the output path of the JavaScript file, so that users can modify the JavaScript (even in inline mode)
         asset_path = os.path.join(config.docs_dir, self.config.javascript)
         if not os.path.exists(asset_path):
@@ -181,11 +189,8 @@ class Plugin(BasePlugin[PluginConfig]):
         data = data.replace("THEME_DEPENDENT_FUNCTION_DEFINITION_PLACEHOLDER", self.theme_function_definitions or "")
         data = data.replace("TOC_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
         data = data.replace("NAVIGATION_DEFAULT_PLACEHOLDER", "true" if self.config.show_navigation_by_default else "false")
-        data = data.replace("TOGGLE_BUTTON_PLACEHOLDER", self.config.toggle_button)
-        # With Material's 'toc.integrate' feature the TOC is part of the navigation sidebar,
-        # which changes below which width the toggle button can still toggle anything visible
-        theme_features = config.theme.get("features") or []
-        data = data.replace("TOC_IS_INTEGRATED_PLACEHOLDER", "true" if "toc.integrate" in theme_features else "false")
+        data = data.replace("TOGGLE_BUTTON_PLACEHOLDER", toggle_button_target)
+        data = data.replace("TOC_IS_INTEGRATED_PLACEHOLDER", "true" if merged_toc_and_navigation else "false")
         data = data.replace("BUTTON_TOGGLE_ICON_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_icon))
         data = data.replace("BUTTON_TOGGLE_BOTH_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_both_tooltip))
         data = data.replace("BUTTON_TOGGLE_NAV_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_nav_tooltip))
