@@ -182,6 +182,10 @@ class Plugin(BasePlugin[PluginConfig]):
         data = data.replace("TOC_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
         data = data.replace("NAVIGATION_DEFAULT_PLACEHOLDER", "true" if self.config.show_toc_by_default else "false")
         data = data.replace("TOGGLE_BUTTON_PLACEHOLDER", self.config.toggle_button)
+        # With Material's 'toc.integrate' feature the TOC is part of the navigation sidebar,
+        # which changes below which width the toggle button can still toggle anything visible
+        theme_features = config.theme.get("features") or []
+        data = data.replace("TOC_IS_INTEGRATED_PLACEHOLDER", "true" if "toc.integrate" in theme_features else "false")
         data = data.replace("BUTTON_TOGGLE_ICON_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_icon))
         data = data.replace("BUTTON_TOGGLE_BOTH_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_both_tooltip))
         data = data.replace("BUTTON_TOGGLE_NAV_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_nav_tooltip))
