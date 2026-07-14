@@ -170,6 +170,14 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 ## Notable changes
 
+### Version 0.1.1
+
+- Fixed `show_navgation_by_default` not working (see #15)
+- Fixed toggle button in combination with material(x)'s `toc-integrate` (see #14)
+- Show a warning and correct `toggle_button: toc` when navigation and TOC are merged (readthedocs theme or material(x) with `toc-integrate`) (see comment in #14)
+
+Thank you @adamant-pwn for finding all and fixing most of the above.
+
 ### Version 0.1.0
 
 - Added autodetection for [MaterialX](https://github.com/jaywhj/mkdocs-materialx) theme.
