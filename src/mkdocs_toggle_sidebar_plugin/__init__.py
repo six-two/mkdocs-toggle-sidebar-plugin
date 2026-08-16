@@ -25,6 +25,7 @@ THEME_COMPATIBILITY = {
 # May not always be accurate, this is just for a more helpful error message
 KNOWN_THEME_NAMES = ["material", "mkdocs", "readthedocs"] + list(THEME_COMPATIBILITY.keys())
 DEFAULT_TOGGLE_BUTTON_ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>'
+REGISTER_KEY_BINDINGS_JAVASCRIPT = """registerKeyboardEventHandler(); console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\\n T -> toggle table of contents sidebar\\n M -> toggle navigation menu sidebar\\n B -> toggle both sidebars (TOC and navigation)");"""
 
 class PluginConfig(Config):
     enabled = Type(bool, default=True)
@@ -40,6 +41,7 @@ class PluginConfig(Config):
     button_toggle_nav_tooltip = Type(str, default="Toggle Navigation")
     button_toggle_toc_tooltip = Type(str, default="Toggle Table of Contents")
     button_toggle_icon = Type(str, default=DEFAULT_TOGGLE_BUTTON_ICON)
+    enable_key_bindings = Type(bool, default=True)
 
 
 def is_known_theme(theme_name: str) -> bool:
@@ -195,4 +197,5 @@ class Plugin(BasePlugin[PluginConfig]):
         data = data.replace("BUTTON_TOGGLE_BOTH_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_both_tooltip))
         data = data.replace("BUTTON_TOGGLE_NAV_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_nav_tooltip))
         data = data.replace("BUTTON_TOGGLE_TOC_TOOLTIP_PLACEHOLDER", escape_for_javascript_string(self.config.button_toggle_toc_tooltip))
+        data = data.replace("REGISTER_KEYBOARD_EVENT_HANDLER_IF_ENABLED_PLACEHOLDER", REGISTER_KEY_BINDINGS_JAVASCRIPT if self.config.enable_key_bindings else "")
         return data

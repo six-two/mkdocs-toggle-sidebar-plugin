@@ -38,7 +38,7 @@ plugins:
 
 ### Key bindings
 
-The plugin adds the following key bindings:
+If `enable_key_bindings` is `True` (the default), the plugin adds the following key bindings:
 
 Key   | Action
 ---   | ---
@@ -70,6 +70,7 @@ plugins:
     button_toggle_nav_tooltip: Toggle Navigation
     button_toggle_toc_tooltip: Toggle Table of Contents
     button_toggle_icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>'
+    enable_key_bindings: False
 ```
 
 The following options exist:
@@ -89,6 +90,7 @@ button_toggle_both_tooltip | `str` | `"Toggle Navigation and Table of Contents"`
 button_toggle_nav_tooltip | `str` | `"Toggle Navigation"` | Tooltip to show when `toggle_button` is `navigation`
 button_toggle_toc_tooltip | `str` | `"Toggle Table of Contents"` | Tooltip to show when `toggle_button` is `toc`
 button_toggle_icon | `str` | SVG of hamburger menu (three vertical bars on top of each other) | SVG to show for the toggle button. Should be 24px by 24px in size. 
+enable_key_bindings | `bool` | `True` | Registers key bindings to toggle ToC (`T`), navigation (`M`), or both (`B`)
 
 
 #### Toggle button
@@ -170,9 +172,13 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 ## Notable changes
 
+### Vershon HEAD
+
+- Added `enable_key_bindings` flag (enabled by default), which can be disabled if key bindings are not wanted or problematic (see #16)
+
 ### Version 0.1.1
 
-- Fixed `show_navgation_by_default` not working (see #15)
+- Fixed `show_navigation_by_default` not working (see #15)
 - Fixed toggle button in combination with material(x)'s `toc-integrate` (see #14)
 - Show a warning and correct `toggle_button: toc` when navigation and TOC are merged (readthedocs theme or material(x) with `toc-integrate`) (see comment in #14)
 
