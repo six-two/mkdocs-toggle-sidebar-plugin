@@ -67,6 +67,7 @@ const registerKeyboardEventHandler = () => {
     // Custom key handlers: SEE https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/?h=key+bind#docsjavascriptsshortcutsjs
     keyboard$.subscribe(key => {
         if (key.mode === "global") {
+            // shouldKeyEventBeIgnored() not needed, as this is explicitely for key bindings
             if (coreEventListenerLogic(key.type)) {
                 // event handled, stop propagation
                 key.claim();

@@ -43,6 +43,35 @@
         customDynamicStyle.innerHTML = setCombinedVisibility(newNavigation, newTOC);
     }
 
+    const shouldKeyEventBeIgnored = (event) => { 
+        if (event.defaultPrevented) {
+            // Someone else explicitely handled the event
+            return true;
+        }
+        if (event.target instanceof Element) {
+            // Check if it is an editable text component, if so skip this event
+            if (event.target.matches("input, textarea, select") || event.target.isContentEditable) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const registerNativeHtmlKeyboardEventHandler = () => {
+        document.addEventListener("keydown", (event => {
+            if (shouldKeyEventBeIgnored(event)) {
+                // do nothing
+            } else {
+                if (coreEventListenerLogic(event.key)) {
+                    // event handled, stop propagation
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
+        }));
+    }
+
+
     // START OF INCLUDE
     // This gets replaced with the definitions of: 
     // - setCombinedVisibility(showNavigation: bool, showTOC: bool) -> string (dynamic CSS)

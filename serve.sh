@@ -16,7 +16,7 @@ source venv/bin/activate
 
 # Update the dependencies
 echo "[*] Installing dependencies"
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements-materialx.txt
 
 echo "[*] Installing latest version of toggle-sidebar plugin"
 python3 -m pip install .

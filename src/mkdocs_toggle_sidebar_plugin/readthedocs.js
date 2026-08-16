@@ -55,13 +55,4 @@ const addToggleButton = (toggleNavigation, toggleTOC) => {
     }
 }
 
-const registerKeyboardEventHandler = () => {
-    // Native HTML key event handling
-    document.addEventListener("keydown", (event => {
-        if (coreEventListenerLogic(event.key)) {
-            // event handled, stop propagation
-            event.preventDefault();
-            event.stopPropagation();
-        }
-    }));
-}
+const registerKeyboardEventHandler = registerNativeHtmlKeyboardEventHandler;
