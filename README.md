@@ -172,7 +172,7 @@ docker run --rm -it -v "$PWD:/share" -w "/share" -p 8000:8000 --entrypoint=bash 
 
 ## Notable changes
 
-### Vershon HEAD
+### Vershon 0.1.2
 
 - Suppress keyboard event handlers in `mkdocs` and `readthedocs` theme when text is being edited (see #16)
 - Added `enable_key_bindings` flag (enabled by default), which can be disabled if key bindings are not wanted or problematic (see #16)
